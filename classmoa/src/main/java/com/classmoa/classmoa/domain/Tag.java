@@ -19,5 +19,14 @@ public class Tag {
     @OneToMany(mappedBy = "tag", cascade = CascadeType.ALL)
     private List<LectureTag> lectureTags = new ArrayList<>();
 
-    //연관관계 메서드 작성
+    public Tag(){}
+
+    public Tag(String name) {
+        this.name = name;
+    }
+
+    public void setLectureTags(LectureTag lectureTag){
+        this.getLectureTags().add(lectureTag);
+        lectureTag.setTag(this);
+    }
 }

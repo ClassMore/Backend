@@ -23,4 +23,16 @@ public class Alarm {
 
     private Long customPrice;
 
+    public Alarm(){}
+    public Alarm(Long customPrice) {
+        this.customPrice = customPrice;
+    }
+
+    public void setLecture(Lecture lecture){
+        this.lecture = lecture;
+    }
+
+    public void setMember(Member member){
+        this.member = member;
+    }
 }

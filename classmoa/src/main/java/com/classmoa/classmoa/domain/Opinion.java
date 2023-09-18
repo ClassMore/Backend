@@ -34,4 +34,11 @@ public class Opinion {
     private LocalDateTime writeDate;
     private Boolean isModified;
 
+    // public void setLecture(Lecture lecture){
+    //     lecture.getOpinions().add(this);
+    //     this.lecture = lecture;
+    // }
+    //
+    // public void setMember(Member member){
+    // }
 }

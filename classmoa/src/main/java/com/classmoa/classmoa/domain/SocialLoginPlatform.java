@@ -16,5 +16,4 @@ public class SocialLoginPlatform {
     private Long id;
 
     private String platformName;
-
 }
