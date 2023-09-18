@@ -23,9 +23,20 @@ public class Member {
     @JoinColumn(name = "platform_id")
     private SocialLoginPlatform socialLoginPlatform;
 
+
+
     private String email;
     private String nickname;
     private String password;
     private String identity;
 
+    public Member(){}
+    public Member(SocialLoginPlatform socialLoginPlatform, String email, String nickname, String password,
+        String identity) {
+        this.socialLoginPlatform = socialLoginPlatform;
+        this.email = email;
+        this.nickname = nickname;
+        this.password = password;
+        this.identity = identity;
+    }
 }

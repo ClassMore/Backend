@@ -24,4 +24,14 @@ public class Comment {
     private LocalDateTime writeDate;
     private Boolean isModified;
 
+    public Comment(){}
+
+    public Comment(String content) {
+        this.content = content;
+    }
+
+    // public void setOpinion(Opinion opinion){
+    //     this.opinion = opinion;
+    //     opinion.getComments().add(this);
+    // }
 }
