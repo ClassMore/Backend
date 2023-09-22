@@ -4,11 +4,9 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static jakarta.persistence.FetchType.LAZY;
@@ -39,6 +37,15 @@ public class Opinion {
 
     @Builder(builderMethodName = "creater", buildMethodName = "create")
     public Opinion(String content) {
+        this.content = content;
+    }
+
+    @Builder
+    public Opinion(Long id) { this.id = id; }
+
+    @Builder(builderMethodName = "editer", buildMethodName = "edit")
+    public Opinion(Long id, String content) {
+        this.id = id;
         this.content = content;
     }
 
