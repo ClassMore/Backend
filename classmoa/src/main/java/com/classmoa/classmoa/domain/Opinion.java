@@ -1,18 +1,21 @@
 package com.classmoa.classmoa.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class Opinion {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +27,7 @@ public class Opinion {
     private Member member;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "lecture_id")
+    @JoinColumn(name = "lecture_id", referencedColumnName = "lecture_id")
     private Lecture lecture;
 
     @OneToMany(mappedBy = "opinion", cascade = CascadeType.ALL)
@@ -33,6 +36,11 @@ public class Opinion {
     private String content;
     private LocalDateTime writeDate;
     private Boolean isModified;
+
+    @Builder(builderMethodName = "creater", buildMethodName = "create")
+    public Opinion(String content) {
+        this.content = content;
+    }
 
     // public void setLecture(Lecture lecture){
     //     lecture.getOpinions().add(this);

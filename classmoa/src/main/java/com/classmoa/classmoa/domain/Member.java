@@ -3,16 +3,17 @@ package com.classmoa.classmoa.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class Member {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,20 +24,22 @@ public class Member {
     @JoinColumn(name = "platform_id")
     private SocialLoginPlatform socialLoginPlatform;
 
-
-
     private String email;
     private String nickname;
     private String password;
-    private String identity;
+    private Date birthDate;
 
-    public Member(){}
-    public Member(SocialLoginPlatform socialLoginPlatform, String email, String nickname, String password,
-        String identity) {
-        this.socialLoginPlatform = socialLoginPlatform;
+    @Builder(builderMethodName = "login", buildMethodName = "loginbuild")
+    public Member(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
+    @Builder(builderMethodName = "signup", buildMethodName = "signupbuild")
+    public Member(String email, String nickname, String password, Date birthDate) {
         this.email = email;
         this.nickname = nickname;
         this.password = password;
-        this.identity = identity;
+        this.birthDate = birthDate;
     }
 }

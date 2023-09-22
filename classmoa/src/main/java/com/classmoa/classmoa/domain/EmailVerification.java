@@ -1,11 +1,13 @@
 package com.classmoa.classmoa.domain;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Getter
 @NoArgsConstructor
 public class EmailVerification {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

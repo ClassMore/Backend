@@ -2,6 +2,7 @@ package com.classmoa.classmoa.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,14 +24,15 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class Lecture {
 
     @Id
-    @Column(name = "lecture_id")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
+    private String lectureId;
     private String title;
     private String instructor;
     private String companyName;
-    private String ordinaryPrice;
-    private String salePrice;
+    private int ordinaryPrice;
+    private int salePrice;
     private String salePercent;
 
     @CreatedDate
@@ -44,8 +46,8 @@ public class Lecture {
     @OneToMany(mappedBy = "lecture", cascade = CascadeType.ALL)
     private List<Opinion> opinions = new ArrayList<>();
 
-    public Lecture(String title, String instructor, String companyName, String ordinaryPrice, String salePrice,
-        String salePercent, String siteLink, String imageLink) {
+    public Lecture(String title, String instructor, String companyName, int ordinaryPrice, int salePrice,
+                   String salePercent, String siteLink, String imageLink) {
         this.title = title;
         this.instructor = instructor;
         this.companyName = companyName;
