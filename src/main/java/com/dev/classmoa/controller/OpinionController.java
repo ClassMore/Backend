@@ -9,9 +9,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dev.classmoa.domain.entity.Comment;
 import com.dev.classmoa.domain.entity.Member;
 import com.dev.classmoa.domain.entity.Opinion;
-import com.dev.classmoa.domain.repository.OpinionRepository;
+import com.dev.classmoa.dto.comment.request.CreateComment;
+import com.dev.classmoa.dto.comment.request.DeleteComment;
+import com.dev.classmoa.dto.comment.request.EditComment;
 import com.dev.classmoa.dto.opinion.request.CreateOpinion;
 import com.dev.classmoa.dto.opinion.request.EditOpinion;
 import com.dev.classmoa.dto.opinion.response.FindOpinion;
@@ -23,37 +26,49 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class OpinionController {
     private final OpinionService opinionService;
-    private final OpinionRepository opinionRepository;
 
-    // 의견리스트 조회
+    // 의견리스트 조회 + 댓글 조회
     @GetMapping("/lecture/{lectureId}/opinions")
-    public ResponseEntity<List<FindOpinion>> getOpinions(@PathVariable String lectureId){
-        List<FindOpinion> lectures = opinionService.getOpinions(lectureId)
+    public ResponseEntity<List<FindOpinion>> getOpinions(@PathVariable String  lectureId){
+        List<FindOpinion> opinions = opinionService.getOpinions(lectureId)
                 .stream().map(FindOpinion::new).toList();
-        return ResponseEntity.ok(lectures);
+        return ResponseEntity.ok(opinions);
     }
 
     // 의견 등록
-    @PostMapping("/lecture/{lectureId}/opinion")
+    @PostMapping("/user/lecture/{lecture_id}/opinion")
     public Long createOpinion(CreateOpinion createOpinion, @PathVariable String lectureId, Member member){
         return opinionService.create(createOpinion.toEntity(), lectureId, member);
     }
 
     // 의견 수정
-    @PostMapping("/lecture/{lectureId}/opinion")
-    public Boolean editOpinion(EditOpinion editOpinion){
-        return opinionService.edit(editOpinion.toEntity());
+    @PostMapping("/user/lecture/opinion")
+    public Boolean editOpinion(EditOpinion editOpinion, Member member){
+        return opinionService.edit(editOpinion.toEntity(), member);
     }
 
     // 의견 삭제
-    @DeleteMapping("/user/lecture/{lecture_id}/opinion")
-    public void deleteOpinion(Opinion opinion){
-        opinionService.delete(opinion);
+    @DeleteMapping("/user/lecture/opinion")
+    public void deleteOpinion(Opinion opinion, Member member){
+        opinionService.delete(opinion, member);
     }
 
     // 댓글 등록
-
+    @PostMapping("/user/opinion/comment/")
+    public Long createComment(CreateComment createComment, Member member){
+        return opinionService.commentCreate(createComment.toEntity(), member);
+    }
     // 댓글 수정
+    @PostMapping("/user/opinion/comment")
+    public Boolean editComment(EditComment editComment, Member member){
+        return opinionService.commentEdit(editComment.toEntity(), member);
+    }
 
     // 댓글 삭제
+    @DeleteMapping("/user/opinion/comment")
+    public void deleteComment(DeleteComment deleteComment, Member member){
+        opinionService.commentDelete(deleteComment.toEntity(), member);
+    }
+
+    // 해야할일 : Member 객체 가져와서
 }

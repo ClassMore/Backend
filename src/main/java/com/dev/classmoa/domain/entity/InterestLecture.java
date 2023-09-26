@@ -30,12 +30,18 @@ public class InterestLecture {
         this.id = id;
     }
 
-    // public void setLecture(Lecture lecture) {
-    // 	this.lecture = lecture;
-    // }
-    //
-    // public void setMember(Member member) {
-    // 	this.member = member;
-    // }
+    @Builder
+    public InterestLecture(Member member, Lecture lecture) {
+        this.member = member;
+        this.lecture = lecture;
+    }
+
+    public void setLecture(Lecture lecture) {
+    	this.lecture = lecture;
+    }
+
+    public void setMember(Member member) {
+    	this.member = member;
+    }
 
 }

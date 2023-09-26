@@ -16,5 +16,4 @@ public class TagService {
     public List<Tag> getTagList(Pageable pageable) {
         return tagRepository.findAll(pageable).getContent();
     }
-
 }
