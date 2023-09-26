@@ -36,6 +36,7 @@ public class Opinion {
     private String content;
     private LocalDateTime writeDate;
     private Boolean isModified;
+    private Boolean isDeleted;
 
     @Builder(builderMethodName = "creater", buildMethodName = "create")
     public Opinion(String content) {
@@ -59,6 +60,9 @@ public class Opinion {
         this.lecture = lecture;
     }
 
+    public void deleteOpinion(Boolean isDeleted){
+        this.isDeleted = isDeleted;
+    }
 
     // public void setLecture(Lecture lecture){
     //     lecture.getOpinions().add(this);

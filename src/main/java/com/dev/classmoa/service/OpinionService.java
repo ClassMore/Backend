@@ -38,40 +38,53 @@ public class OpinionService {
     }
 
     // Member 객체가 굳이 필요하지 않을거 같음.
-    public Boolean edit(Opinion opinion){
+    public Boolean edit(Opinion opinion, Member member){
         Opinion savedOpinion = opinionRepository.findById(opinion.getId())
             .orElseThrow(() -> new IllegalArgumentException("not found"));
 
-        return opinionRepository.save(
-            savedOpinion.builder()
-                    .isModified(true)
-                    .content(opinion.getContent())
-                    .build()
-        ).getIsModified();
+        if(savedOpinion.getMember().equals(member)){
+            return opinionRepository.save(
+                savedOpinion.builder()
+                        .isModified(true)
+                        .content(opinion.getContent())
+                        .build()
+            ).getIsModified();
+        }
+        return false;
     }
 
     // Member 객체가 굳이 필요하지 않을거 같음.
-    public void delete(Opinion opinion){
-        opinionRepository.deleteById(opinion.getId());
+    public void delete(Opinion opinion, Member member) {
+        Opinion savedOpinion = opinionRepository.findById(opinion.getId())
+            .orElseThrow(() -> new IllegalArgumentException("not found"));
+        if(savedOpinion.getMember().equals(member)) {
+            opinionRepository.deleteById(opinion.getId());
+        }
     }
 
     // 댓글 생성
     public Long commentCreate(Comment newComment, Member member){
-        Opinion opinion = opinionRepository.findById(newComment.getOpinion().getId())
-            .orElseThrow(() -> new IllegalArgumentException("sss"));
         return commentRepository.save(
-            Comment.builder()
-                .opinion(opinion)
+            newComment.builder()
+                .opinion(newComment.getOpinion())
                 .member(member)
                 .build()
         ).getId();
     }
-    public Boolean commentEdit(Comment newComment){
-        return commentRepository.save(newComment).getIsModified();
+    public Boolean commentEdit(Comment newComment, Member member){
+        Comment comment = commentRepository.findById(newComment.getId())
+            .orElseThrow(() -> new IllegalArgumentException("not found"));
+        if(comment.getMember().equals(member)){
+            comment.setContent(newComment.getContent());
+        }
+        return false;
     }
 
-    public void commentDelete(Comment comment){
-        commentRepository.deleteById(comment.getId());
+    public void commentDelete(Comment comment, Member member) {
+        Comment savedComment = commentRepository.findById(comment.getId())
+            .orElseThrow(() -> new IllegalArgumentException("not found"));
+        if(savedComment.getMember().equals(member)){
+            commentRepository.deleteById(comment.getId());
+        }
     }
-
 }

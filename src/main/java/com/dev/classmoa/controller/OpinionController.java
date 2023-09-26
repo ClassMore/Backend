@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dev.classmoa.domain.entity.Comment;
 import com.dev.classmoa.domain.entity.Member;
 import com.dev.classmoa.domain.entity.Opinion;
 import com.dev.classmoa.dto.comment.request.CreateComment;
@@ -41,15 +42,15 @@ public class OpinionController {
     }
 
     // 의견 수정
-    @PostMapping("/user/lecture/{lecture_id}/opinion")
-    public Boolean editOpinion(EditOpinion editOpinion){
-        return opinionService.edit(editOpinion.toEntity());
+    @PostMapping("/user/lecture/opinion")
+    public Boolean editOpinion(EditOpinion editOpinion, Member member){
+        return opinionService.edit(editOpinion.toEntity(), member);
     }
 
     // 의견 삭제
-    @DeleteMapping("/user/lecture/{lecture_id}/opinion")
-    public void deleteOpinion(Opinion opinion){
-        opinionService.delete(opinion);
+    @DeleteMapping("/user/lecture/opinion")
+    public void deleteOpinion(Opinion opinion, Member member){
+        opinionService.delete(opinion, member);
     }
 
     // 댓글 등록
@@ -57,16 +58,17 @@ public class OpinionController {
     public Long createComment(CreateComment createComment, Member member){
         return opinionService.commentCreate(createComment.toEntity(), member);
     }
-
     // 댓글 수정
     @PostMapping("/user/opinion/comment")
-    public Boolean editComment(EditComment editComment){
-        return opinionService.commentEdit(editComment.toEntity());
+    public Boolean editComment(EditComment editComment, Member member){
+        return opinionService.commentEdit(editComment.toEntity(), member);
     }
 
     // 댓글 삭제
     @DeleteMapping("/user/opinion/comment")
     public void deleteComment(DeleteComment deleteComment, Member member){
-        opinionService.commentDelete(deleteComment.toEntity());
+        opinionService.commentDelete(deleteComment.toEntity(), member);
     }
+
+    // 해야할일 : Member 객체 가져와서
 }

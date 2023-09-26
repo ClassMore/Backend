@@ -27,6 +27,7 @@ public class Comment {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @Setter
     private String content;
     private LocalDateTime writeDate;
     private Boolean isModified;

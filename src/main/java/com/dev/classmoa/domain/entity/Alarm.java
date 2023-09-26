@@ -40,4 +40,12 @@ public class Alarm {
 
     @Builder(builderMethodName = "canceler", buildMethodName = "cancel")
     public Alarm(Long id) { this.id = id; }
+
+    @Builder
+    public Alarm(Member member, Lecture lecture, int customPrice) {
+        this.member = member;
+        this.lecture = lecture;
+        this.customPrice = customPrice;
+    }
+
 }

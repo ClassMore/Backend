@@ -17,10 +17,7 @@ public class LectureTagController {
 
     @GetMapping("/{id}")
     public ResponseEntity<List<FindLecture>> getLecturesByTag(@PathVariable Long tagId) {
-
-        List<FindLecture> lectures = lectureTagService.getLectureListByTag(tagId)
-                .stream().map(FindLecture::new).toList();
-        return ResponseEntity.ok(lectures);
+        return ResponseEntity.ok(lectureTagService.getLectureListByTag(tagId));
     }
 
 }
