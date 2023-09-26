@@ -18,6 +18,7 @@ public class CreateComment {
         return Comment.creater()
                 .content(content)
                 .opinion(Opinion.finder().id(opinionId).find())
+                .isModified(false)
                 .create();
     }
 }
