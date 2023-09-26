@@ -21,7 +21,6 @@ public class Opinion {
     @Column(name = "opinion_id")
     private Long id;
 
-    @Setter
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
     private Member member;

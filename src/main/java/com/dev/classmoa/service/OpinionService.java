@@ -1,8 +1,10 @@
 package com.dev.classmoa.service;
 
+import com.dev.classmoa.domain.entity.Comment;
 import com.dev.classmoa.domain.entity.Lecture;
 import com.dev.classmoa.domain.entity.Member;
 import com.dev.classmoa.domain.entity.Opinion;
+import com.dev.classmoa.domain.repository.CommentRepository;
 import com.dev.classmoa.domain.repository.OpinionRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -13,8 +15,10 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class OpinionService {
+
     private final OpinionRepository opinionRepository;
     private final LectureService lectureService;
+    private final CommentRepository commentRepository;
 
     public List<Opinion> getOpinions(String lectureId) {
         Lecture lecture = lectureService.getLectureDetail(lectureId);
@@ -50,4 +54,24 @@ public class OpinionService {
     public void delete(Opinion opinion){
         opinionRepository.deleteById(opinion.getId());
     }
+
+    // 댓글 생성
+    public Long commentCreate(Comment newComment, Member member){
+        Opinion opinion = opinionRepository.findById(newComment.getOpinion().getId())
+            .orElseThrow(() -> new IllegalArgumentException("sss"));
+        return commentRepository.save(
+            Comment.builder()
+                .opinion(opinion)
+                .member(member)
+                .build()
+        ).getId();
+    }
+    public Boolean commentEdit(Comment newComment){
+        return commentRepository.save(newComment).getIsModified();
+    }
+
+    public void commentDelete(Comment comment){
+        commentRepository.deleteById(comment.getId());
+    }
+
 }

@@ -17,6 +17,7 @@ public class EditComment {
         return Comment.editer()
                 .id(id)
                 .content(content)
+                .isModified(true)
                 .edit();
     }
 }
