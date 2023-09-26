@@ -17,13 +17,8 @@ public class LectureService {
     public List<Lecture> getLectureList(Pageable pageable) {
         return lectureRepository.findAll(pageable).getContent();
     }
-
     public Lecture getLectureDetail(String lectureId) {
-        return lectureRepository.finByLectureId(lectureId);
+        return lectureRepository.findByLectureId(lectureId);
     }
 
-//    public Lecture getLectureListByTag(Long id) {
-//        return lectureRepository.findByTag(id)
-//                .orElseThrow(() -> new ClassmoaException(LectureCode.NOT_FOUND_LECTURE));
-//    }
 }
