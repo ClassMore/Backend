@@ -27,7 +27,7 @@ public class OpinionController {
 
     // 의견리스트 조회
     @GetMapping("/lecture/{lectureId}/opinions")
-    public ResponseEntity<List<FindOpinion>> getOpinions(@PathVariable String  lectureId){
+    public ResponseEntity<List<FindOpinion>> getOpinions(@PathVariable String lectureId){
         List<FindOpinion> lectures = opinionService.getOpinions(lectureId)
                 .stream().map(FindOpinion::new).toList();
         return ResponseEntity.ok(lectures);
