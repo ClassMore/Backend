@@ -10,12 +10,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class FindTag {
+public class FindTagResponse {
 
     private Long id;
     private String name;
 
-    public FindTag(Tag tag) {
+    public FindTagResponse(Tag tag) {
         this.id = getId();
         this.name = getName();
     }

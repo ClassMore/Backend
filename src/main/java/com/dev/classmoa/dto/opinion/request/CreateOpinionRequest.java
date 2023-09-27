@@ -8,7 +8,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateOpinion {
+public class CreateOpinionRequest {
 
     private String content;
 

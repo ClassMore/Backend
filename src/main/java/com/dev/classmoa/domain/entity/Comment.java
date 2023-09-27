@@ -57,10 +57,11 @@ public class Comment {
     }
 
     @Builder
-    public Comment(String content, Opinion opinion, Member member) {
+    public Comment(String content, boolean isModified, Member member, Opinion opinion) {
         this.content = content;
-        this.opinion = opinion;
+        this.isModified = isModified;
         this.member = member;
+        this.opinion = opinion;
     }
 
     public void deleteComment(Boolean isDeleted){

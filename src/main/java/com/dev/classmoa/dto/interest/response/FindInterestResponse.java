@@ -1,4 +1,4 @@
-package com.dev.classmoa.dto.alarm.response;
+package com.dev.classmoa.dto.interest.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,7 +7,9 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class FindAlarm {
+@NoArgsConstructor
+public class FindInterestResponse {
+	private Boolean isInterested;
 }
+

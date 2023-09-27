@@ -10,7 +10,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dev.classmoa.domain.entity.Member;
-import com.dev.classmoa.dto.Lecture.response.FindInterestLectures;
+import com.dev.classmoa.dto.Lecture.response.FindInterestLecturesResponse;
+import com.dev.classmoa.dto.alarm.response.CreateAlarmResponse;
+import com.dev.classmoa.dto.alarm.response.FindAlarmResponse;
+import com.dev.classmoa.dto.interest.response.CreateInterestResponse;
+import com.dev.classmoa.dto.interest.response.FindInterestResponse;
 import com.dev.classmoa.service.InterestService;
 
 import lombok.RequiredArgsConstructor;
@@ -23,20 +27,21 @@ public class InterestController {
 
 	// 좋아요 한 강의 목록 조회 - 마이페이지
 	@GetMapping("/interest")
-	public ResponseEntity<List<FindInterestLectures>> getInterests(Member member){
+	public ResponseEntity<List<FindInterestLecturesResponse>> getInterests(Member member){
 		return ResponseEntity.ok(interestService.getLectureListByMember(member.getId()));
 	}
+
 	// 좋아요 한 강의 한개 조회
 	@GetMapping("/interest/{lecture_id}")
-	public Boolean getInterest(@PathVariable("lecture_id") String lectureId, Member member){
-		return  interestService.getIsInterested(lectureId, member);
+	public ResponseEntity<FindInterestResponse> getInterest(@PathVariable("lecture_id") String lectureId, Member member){
+		return ResponseEntity.ok(interestService.getIsInterested(lectureId, member));
 	}
 
 	// 좋아요 등록
 	//TODO: PathVariable 확인 [가영]
 	@PostMapping("/interest/{lecture_id}")
-	public Long createInterest(@PathVariable("lecture_id") String lectureId, Member member){
-		return interestService.create(lectureId, member);
+	public ResponseEntity<CreateInterestResponse> createInterest(@PathVariable("lecture_id") String lectureId, Member member){
+		return ResponseEntity.ok(interestService.create(lectureId, member));
 	}
 
 	// 좋아요 삭제

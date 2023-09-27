@@ -5,11 +5,12 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.dev.classmoa.domain.entity.Alarm;
-import com.dev.classmoa.domain.entity.InterestLecture;
 import com.dev.classmoa.domain.entity.Lecture;
 import com.dev.classmoa.domain.entity.Member;
 import com.dev.classmoa.domain.repository.AlarmRepository;
-import com.dev.classmoa.dto.Lecture.response.FindAlarmLectures;
+import com.dev.classmoa.dto.Lecture.response.FindAlarmLecturesResponse;
+import com.dev.classmoa.dto.alarm.response.CreateAlarmResponse;
+import com.dev.classmoa.dto.alarm.response.FindAlarmResponse;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,30 +21,33 @@ public class AlarmService {
 	private final LectureService lectureService;
 
 	// 조회
-	public List<FindAlarmLectures> getLectureListByMember(Long memberId){
+	public List<FindAlarmLecturesResponse> getLectureListByMember(Long memberId){
 		List<Alarm> alarms = alarmRepository.findAlarmsByMemberId(memberId);
 
 		return alarms.stream()
 			.map(Alarm::getLecture)
-			.map(FindAlarmLectures::new)
+			.map(FindAlarmLecturesResponse::new)
 			.toList();
 	}
 
 	// 단일 조회
-	public Boolean getIsAlarmed(String lectureId, Member member){
-		return alarmRepository.existsAlarmByMemberIdAndLectureId(member.getId(), lectureId);
+	public FindAlarmResponse getIsAlarmed(String lectureId, Member member){
+		Boolean isAlarmed = alarmRepository.findAlarmByMemberIdAndLecture_LectureId(member.getId(), lectureId)
+			.isPresent();
+		return new FindAlarmResponse(isAlarmed);
 	}
 
 	// 신청
-	public Long create(String lectureId, Member member){
+	public CreateAlarmResponse create(String lectureId, Member member){
 		Lecture lecture = lectureService.getLectureDetail(lectureId);
-		return alarmRepository.save(
+		Alarm alarm = alarmRepository.save(
 			Alarm.builder()
 				.member(member)
 				.lecture(lecture)
 				.customPrice(lecture.getSalePrice())
 				.build()
-		).getId();
+		);
+		return new CreateAlarmResponse(alarm.getId());
 	}
 
 	// 삭제

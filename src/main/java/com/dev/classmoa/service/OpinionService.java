@@ -6,6 +6,13 @@ import com.dev.classmoa.domain.entity.Member;
 import com.dev.classmoa.domain.entity.Opinion;
 import com.dev.classmoa.domain.repository.CommentRepository;
 import com.dev.classmoa.domain.repository.OpinionRepository;
+import com.dev.classmoa.dto.comment.response.CreateCommentResponse;
+import com.dev.classmoa.dto.comment.response.DeleteCommentResponse;
+import com.dev.classmoa.dto.comment.response.EditCommentResponse;
+import com.dev.classmoa.dto.opinion.request.DeleteOpinionRequest;
+import com.dev.classmoa.dto.opinion.response.CreateOpinionResponse;
+import com.dev.classmoa.dto.opinion.response.DeleteOpinionResponse;
+import com.dev.classmoa.dto.opinion.response.EditOpinionResponse;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,70 +32,76 @@ public class OpinionService {
         return lecture.getOpinions();
     }
 
-    public Long create(Opinion newOpinion, String lectureId, Member member){
+    public CreateOpinionResponse create(Opinion newOpinion, String lectureId, Member member){
         Lecture lecture = lectureService.getLectureDetail(lectureId);
-        return opinionRepository.save(
+        Opinion opinion = opinionRepository.save(
                 Opinion.builder()
                         .content(newOpinion.getContent())
                         .isModified(false)
                         .member(member)
                         .lecture(lecture)
                         .build()
-        ).getId();
+        );
+        return new CreateOpinionResponse(opinion.getId());
     }
 
     // TODO: 업데이트라면 save 할 필요 없을 것 같은데, Setter 역할을 하는 메소드를 하나 만들자. [창준]
-    public Boolean edit(Opinion opinion, Member member){
+    public EditOpinionResponse edit(Opinion opinion, Member member){
         Opinion savedOpinion = opinionRepository.findById(opinion.getId())
             .orElseThrow(() -> new IllegalArgumentException("not found"));
 
         if(savedOpinion.getMember().equals(member)){
             savedOpinion.editOpinion(savedOpinion.getContent());
-            return true;
+            return new EditOpinionResponse(true);
         }
-        return false;
+        return new EditOpinionResponse(false);
     }
 
     // TODO: 예외 처리 함수
-    public Boolean delete(Opinion opinion, Member member) {
+    public DeleteOpinionResponse delete(Opinion opinion, Member member) {
         Opinion savedOpinion = opinionRepository.findById(opinion.getId())
             .orElseThrow(() -> new IllegalArgumentException("not found"));
         if(savedOpinion.getMember().equals(member)) {
             savedOpinion.deleteOpinion(true);
-            return true;
+            return new DeleteOpinionResponse(true);
         }
-        return false;
+        return new DeleteOpinionResponse(false);
     }
 
     // 댓글 생성
     //TODO: ???? [가영]
-    public Long commentCreate(Comment newComment, Member member){
-        return commentRepository.save(
+    public CreateCommentResponse commentCreate(Comment newComment, Long opinionId, Member member){
+        Opinion opinion = opinionRepository.getById(opinionId);
+        Comment comment = commentRepository.save(
             Comment.builder()
                 .content(newComment.getContent())
-                .opinion(newComment.getOpinion())
+                .isModified(false)
                 .member(member)
+                .opinion(opinion)
                 .build()
-        ).getId();
+        );
+        return new CreateCommentResponse(comment.getId());
     }
 
-    public Boolean commentEdit(Comment newComment, Member member){
+
+    public EditCommentResponse commentEdit(Comment newComment, Member member){
         Comment comment = commentRepository.findById(newComment.getId())
             .orElseThrow(() -> new IllegalArgumentException("not found"));
         if(comment.getMember().equals(member)){
             comment.editComment(newComment.getContent());
+            return new EditCommentResponse(true);
         }
-        return false;
+        return new EditCommentResponse(false);
     }
 
     //TODO: 예외 처리 함수 [규민]
-    public Boolean commentDelete(Comment comment, Member member) {
+    public DeleteCommentResponse commentDelete(Comment comment, Member member) {
         Comment savedComment = commentRepository.findById(comment.getId())
             .orElseThrow(() -> new IllegalArgumentException("not found"));
         if(savedComment.getMember().equals(member)){
             comment.deleteComment(true);
-            return true;
+            return new DeleteCommentResponse(true);
         }
-        return false;
+        return new DeleteCommentResponse(false);
     }
 }

@@ -9,11 +9,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dev.classmoa.domain.entity.Alarm;
-import com.dev.classmoa.domain.entity.InterestLecture;
-import com.dev.classmoa.domain.entity.Lecture;
 import com.dev.classmoa.domain.entity.Member;
-import com.dev.classmoa.dto.Lecture.response.FindAlarmLectures;
+import com.dev.classmoa.dto.Lecture.response.FindAlarmLecturesResponse;
+import com.dev.classmoa.dto.alarm.response.CreateAlarmResponse;
+import com.dev.classmoa.dto.alarm.response.FindAlarmResponse;
 import com.dev.classmoa.service.AlarmService;
 
 import lombok.RequiredArgsConstructor;
@@ -25,20 +24,21 @@ public class AlarmController {
 
 	// 알람내역 조회
 	@GetMapping("/alarm")
-	public ResponseEntity<List<FindAlarmLectures>> getAlarms(Member member){
+	public ResponseEntity<List<FindAlarmLecturesResponse>> getAlarms(Member member){
 		return ResponseEntity.ok(alarmService.getLectureListByMember(member.getId()));
 	}
+
 	// 알람내역 한개 조회
 	@GetMapping("/alarm/{lecture_id}")
-	public Boolean getAlarm(@PathVariable("lecture_id") String lectureId, Member member){
-		return alarmService.getIsAlarmed(lectureId, member);
+	public ResponseEntity<FindAlarmResponse> getAlarm(@PathVariable("lecture_id") String lectureId, Member member){
+		return ResponseEntity.ok(alarmService.getIsAlarmed(lectureId, member));
 	}
 
 	// 알람신청
 	//TODO: pathvariable 로 매핑을 시켜줄려면 이름이 같거나 @PathVariable("lecture_id")라고 선언 해야 가능한 걸로 앎 [가영]
 	@PostMapping("/alarm/{lecture_id}")
-	public Long createAlarm(@PathVariable("lecture_id") String lectureId, Member member){
-		return alarmService.create(lectureId, member);
+	public ResponseEntity<CreateAlarmResponse> createAlarm(@PathVariable("lecture_id") String lectureId, Member member){
+		return ResponseEntity.ok(alarmService.create(lectureId, member));
 	}
 
 	// 알람신청 해제

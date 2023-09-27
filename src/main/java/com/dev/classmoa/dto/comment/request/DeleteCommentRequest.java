@@ -8,16 +8,13 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class EditComment {
+public class DeleteCommentRequest {
 
     private Long id;
-    private String content;
 
     public Comment toEntity() {
-        return Comment.editer()
+        return Comment.deleter()
                 .id(id)
-                .content(content)
-                .isModified(true)
-                .edit();
+                .delete();
     }
 }

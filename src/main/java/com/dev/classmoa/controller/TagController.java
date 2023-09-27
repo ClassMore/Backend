@@ -1,6 +1,6 @@
 package com.dev.classmoa.controller;
 
-import com.dev.classmoa.dto.tag.response.FindTag;
+import com.dev.classmoa.dto.tag.response.FindTagResponse;
 import com.dev.classmoa.service.TagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -16,9 +16,9 @@ public class TagController {
     private final TagService tagService;
 
     @GetMapping("/")
-    public ResponseEntity<List<FindTag>> getTags(Pageable pageable) {
-        List<FindTag> tags = tagService.getTagList(pageable)
-                .stream().map(FindTag::new).toList();
+    public ResponseEntity<List<FindTagResponse>> getTags(Pageable pageable) {
+        List<FindTagResponse> tags = tagService.getTagList(pageable)
+                .stream().map(FindTagResponse::new).toList();
         return ResponseEntity.ok(tags);
     }
 }

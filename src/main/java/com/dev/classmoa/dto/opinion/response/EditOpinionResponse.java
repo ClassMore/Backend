@@ -7,11 +7,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class EditOpinion {
+public class EditOpinionResponse {
 
     private Boolean isModified;
-
-    public EditOpinion(Opinion opinion)  {
-        this.isModified = opinion.getIsModified();
-    }
 }
