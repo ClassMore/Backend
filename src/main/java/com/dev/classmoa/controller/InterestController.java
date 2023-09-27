@@ -31,12 +31,14 @@ public class InterestController {
 	}
 
 	// 좋아요 등록
+	//TODO: PathVariable 확인
 	@PostMapping("/interest/{lecture_id}")
 	public Long createInterest(@PathVariable String lectureId, Member member){
 		return interestService.create(lectureId, member);
 	}
 
 	// 좋아요 삭제
+	// TODO: 엔티티로 Request 를 받고 있는데....
 	@DeleteMapping("/interest/{lecture_id}")
 	public void deleteInterest(InterestLecture interestLecture, Member member){
 		interestService.delete(interestLecture, member);

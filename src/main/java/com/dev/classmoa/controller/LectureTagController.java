@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
 public class LectureTagController {
     private final LectureTagService lectureTagService;
 
+    //TODO: PathVariable
     @GetMapping("/{id}")
     public ResponseEntity<List<FindLecture>> getLecturesByTag(@PathVariable Long tagId) {
         return ResponseEntity.ok(lectureTagService.getLectureListByTag(tagId));

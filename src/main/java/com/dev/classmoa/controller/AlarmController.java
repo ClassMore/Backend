@@ -30,12 +30,14 @@ public class AlarmController {
 	}
 
 	// 알람신청
+	//TODO: pathvariable 로 매핑을 시켜줄려면 이름이 같거나 @PathVariable("lecture_id")라고 선언 해야 가능한 걸로 앎
 	@PostMapping("/alarm/{lecture_id}")
 	public Long createAlarm(@PathVariable String lectureId, Member member){
 		return alarmService.create(lectureId, member);
 	}
 
 	// 알람신청 해제
+	// TODO: api 문서에는 Pathvariable 로 받는 것 같은데 아닌가
 	@DeleteMapping("/alarm")
 	public void deleteAlarm(Alarm alarm, Member member){
 		alarmService.delete(alarm, member);

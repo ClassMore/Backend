@@ -41,9 +41,12 @@ public class InterestService {
 		).getId();
 	}
 
+	//TODO:  예외 처리
 	public void delete(InterestLecture interestLecture, Member member) {
 		InterestLecture interest = interestLectureRepository.findById(interestLecture.getId())
 			.orElseThrow(() -> new IllegalArgumentException("not found"));
+		
+		//TODO: 로직이 변결될 수 있음
 		if(interest.getMember().equals(member)) {
 			interestLectureRepository.deleteById(interestLecture.getId());
 		}

@@ -38,6 +38,7 @@ public class OpinionService {
     }
 
     // Member 객체가 굳이 필요하지 않을거 같음.
+    // TODO: 업데이트라면 save 할 필요 없을 것 같은데, Setter 역할을 하는 메소드를 하나 만들자.
     public Boolean edit(Opinion opinion, Member member){
         Opinion savedOpinion = opinionRepository.findById(opinion.getId())
             .orElseThrow(() -> new IllegalArgumentException("not found"));
@@ -54,6 +55,8 @@ public class OpinionService {
     }
 
     // Member 객체가 굳이 필요하지 않을거 같음.
+    //TODO: 예외 처리 함수
+
     public void delete(Opinion opinion, Member member) {
         Opinion savedOpinion = opinionRepository.findById(opinion.getId())
             .orElseThrow(() -> new IllegalArgumentException("not found"));
@@ -63,6 +66,7 @@ public class OpinionService {
     }
 
     // 댓글 생성
+    //TODO: ????
     public Long commentCreate(Comment newComment, Member member){
         return commentRepository.save(
             newComment.builder()
@@ -80,6 +84,7 @@ public class OpinionService {
         return false;
     }
 
+    //TOOD: 예외 처리 함수
     public void commentDelete(Comment comment, Member member) {
         Comment savedComment = commentRepository.findById(comment.getId())
             .orElseThrow(() -> new IllegalArgumentException("not found"));

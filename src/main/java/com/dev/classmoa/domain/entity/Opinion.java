@@ -38,6 +38,7 @@ public class Opinion {
     private Boolean isModified;
     private Boolean isDeleted;
 
+
     @Builder(builderMethodName = "creater", buildMethodName = "create")
     public Opinion(String content) {
         this.content = content;

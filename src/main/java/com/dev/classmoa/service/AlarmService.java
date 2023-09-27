@@ -43,8 +43,11 @@ public class AlarmService {
 
 	// 삭제
 	public void delete(Alarm alarm, Member member) {
+		//TODO: 예외 함수 커스터마이징해서 넣기
 		Alarm alarmlecture = alarmRepository.findById(alarm.getId())
 			.orElseThrow(() -> new IllegalArgumentException("not found"));
+
+		//TODO: methodArgumentResolver 에서 처리하는 로직에 따라 달라질 수 있다.
 		if(alarmlecture.getMember().equals(member)) {
 			alarmRepository.deleteById(alarmlecture.getId());
 		}

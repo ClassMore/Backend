@@ -29,12 +29,13 @@ public class OpinionController {
 
     // 의견리스트 조회 + 댓글 조회
     @GetMapping("/lecture/{lectureId}/opinions")
-    public ResponseEntity<List<FindOpinion>> getOpinions(@PathVariable String  lectureId){
+    public ResponseEntity<List<FindOpinion>> getOpinions(@PathVariable String lectureId){
         List<FindOpinion> opinions = opinionService.getOpinions(lectureId)
                 .stream().map(FindOpinion::new).toList();
         return ResponseEntity.ok(opinions);
     }
 
+    //TODO: PathVariable
     // 의견 등록
     @PostMapping("/user/lecture/{lecture_id}/opinion")
     public Long createOpinion(CreateOpinion createOpinion, @PathVariable String lectureId, Member member){
@@ -48,6 +49,7 @@ public class OpinionController {
     }
 
     // 의견 삭제
+    //TODO: Entity 를  DTO 로 쓰면.....
     @DeleteMapping("/user/lecture/opinion")
     public void deleteOpinion(Opinion opinion, Member member){
         opinionService.delete(opinion, member);
