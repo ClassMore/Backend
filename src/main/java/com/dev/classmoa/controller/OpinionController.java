@@ -9,13 +9,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dev.classmoa.domain.entity.Comment;
 import com.dev.classmoa.domain.entity.Member;
-import com.dev.classmoa.domain.entity.Opinion;
 import com.dev.classmoa.dto.comment.request.CreateComment;
 import com.dev.classmoa.dto.comment.request.DeleteComment;
 import com.dev.classmoa.dto.comment.request.EditComment;
 import com.dev.classmoa.dto.opinion.request.CreateOpinion;
+import com.dev.classmoa.dto.opinion.request.DeleteOpinion;
 import com.dev.classmoa.dto.opinion.request.EditOpinion;
 import com.dev.classmoa.dto.opinion.response.FindOpinion;
 import com.dev.classmoa.service.OpinionService;
@@ -35,10 +34,10 @@ public class OpinionController {
         return ResponseEntity.ok(opinions);
     }
 
-    //TODO: PathVariable
+    //TODO: PathVariable << 여기
     // 의견 등록
     @PostMapping("/user/lecture/{lecture_id}/opinion")
-    public Long createOpinion(CreateOpinion createOpinion, @PathVariable String lectureId, Member member){
+    public Long createOpinion(CreateOpinion createOpinion, @PathVariable("lecture_id") String lectureId, Member member){
         return opinionService.create(createOpinion.toEntity(), lectureId, member);
     }
 
@@ -49,10 +48,9 @@ public class OpinionController {
     }
 
     // 의견 삭제
-    //TODO: Entity 를  DTO 로 쓰면.....
     @DeleteMapping("/user/lecture/opinion")
-    public void deleteOpinion(Opinion opinion, Member member){
-        opinionService.delete(opinion, member);
+    public void deleteOpinion(DeleteOpinion deleteOpinion, Member member){
+        opinionService.delete(deleteOpinion.toEntity(), member);
     }
 
     // 댓글 등록
@@ -68,9 +66,7 @@ public class OpinionController {
 
     // 댓글 삭제
     @DeleteMapping("/user/opinion/comment")
-    public void deleteComment(DeleteComment deleteComment, Member member){
-        opinionService.commentDelete(deleteComment.toEntity(), member);
+    public Boolean deleteComment(DeleteComment deleteComment, Member member){
+        return opinionService.commentDelete(deleteComment.toEntity(), member);
     }
-
-    // 해야할일 : Member 객체 가져와서
 }

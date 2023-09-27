@@ -20,12 +20,14 @@ public class FindOpinion {
     private String content;
     private Member member;
     private List<Comment> comments;
+    private Boolean isModified;
 
     public FindOpinion(Opinion opinion) {
         this.id = opinion.getId();
         this.content = opinion.getContent();
         this.member = opinion.getMember();
         this.comments = opinion.getComments();
+        this.isModified = opinion.getIsModified();
     }
 
 }

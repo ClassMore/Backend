@@ -10,11 +10,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AddAlarm {
+public class CreateAlarm {
 
     private Long id;
 
-    public AddAlarm (Alarm alarm) {
+    public CreateAlarm (Alarm alarm) {
         this.id = alarm.getId();
     }
 }

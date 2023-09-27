@@ -17,4 +17,5 @@ public class ChangeSalePrice {
     private Lecture lecture;
 
     private int newSalePrice;
+
 }
