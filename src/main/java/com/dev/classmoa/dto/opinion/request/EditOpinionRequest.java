@@ -8,7 +8,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class EditOpinion {
+public class EditOpinionRequest {
 
     private Long id;
     private String content;

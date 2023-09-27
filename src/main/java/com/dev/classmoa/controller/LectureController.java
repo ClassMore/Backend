@@ -1,7 +1,7 @@
 package com.dev.classmoa.controller;
 
-import com.dev.classmoa.dto.Lecture.response.FindLecture;
-import com.dev.classmoa.dto.Lecture.response.FindLectureDetail;
+import com.dev.classmoa.dto.Lecture.response.FindLectureDetailResponse;
+import com.dev.classmoa.dto.Lecture.response.FindLectureResponse;
 import com.dev.classmoa.service.LectureService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -18,21 +18,14 @@ public class LectureController {
     private final LectureService lectureService;
 
     @GetMapping("/")
-    public ResponseEntity<List<FindLecture>> getLectures(Pageable pageable) {
-        List<FindLecture> lectures = lectureService.getLectureList(pageable)
-                .stream().map(FindLecture::new).toList();
-        return ResponseEntity.ok(lectures);
+    public ResponseEntity<List<FindLectureResponse>> getLectures(Pageable pageable) {
+        return ResponseEntity.ok(lectureService.getLectureList(pageable));
     }
 
-//    @GetMapping("/{id}")
-//    public ResponseEntity<List<FindLecture>> getLecturesByTag(Pageable pageable) {
-//        return ResponseEntity.ok(new FindLectureDetail(lectureService.getLectureDetail(id)));
-//    }
-
     //TODO: PathVariable
-    @GetMapping("/lecture/{id}")
-    public ResponseEntity<FindLectureDetail> getLecture(@PathVariable String lectureId) {
-        return ResponseEntity.ok(new FindLectureDetail(lectureService.getLectureDetail(lectureId)));
+    @GetMapping("/lecture/{lecture_id}")
+    public ResponseEntity<FindLectureDetailResponse> getLecture(@PathVariable("lecture_id") String lectureId) {
+        return ResponseEntity.ok(new FindLectureDetailResponse(lectureService.getLectureDetail(lectureId)));
     }
 
 }

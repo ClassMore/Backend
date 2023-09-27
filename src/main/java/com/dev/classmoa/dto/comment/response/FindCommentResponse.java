@@ -11,14 +11,14 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class FindComment {
+public class FindCommentResponse {
 
     private Long id;
     private String content;
     private Opinion opinion;
     private Boolean isModified;
 
-    public FindComment(Comment comment) {
+    public FindCommentResponse(Comment comment) {
         this.id = comment.getId();
         this.content = comment.getContent();
         this.opinion = comment.getOpinion();

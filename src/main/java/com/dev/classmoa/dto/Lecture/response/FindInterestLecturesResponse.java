@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class FindInterestLectures {
+public class FindInterestLecturesResponse {
 
     private Long id;
     private String lectureId;
@@ -18,7 +18,7 @@ public class FindInterestLectures {
     private String title;
     private String instructor;
 
-    public FindInterestLectures(Lecture lecture) {
+    public FindInterestLecturesResponse(Lecture lecture) {
         this.id = lecture.getId();
         this.lectureId = lecture.getLectureId();
         this.imageLink = lecture.getImageLink();

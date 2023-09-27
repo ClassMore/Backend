@@ -11,11 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class EditComment {
+public class EditCommentResponse {
 
     private Boolean isModified;
-
-    public EditComment(Comment comment) {
-        this.isModified = comment.getIsModified();
-    }
 }

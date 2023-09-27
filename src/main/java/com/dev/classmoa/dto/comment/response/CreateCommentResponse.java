@@ -11,11 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateComment {
+public class CreateCommentResponse {
 
     private Long id;
-
-    public CreateComment(Comment comment) {
-        this.id = comment.getId();
-    }
 }

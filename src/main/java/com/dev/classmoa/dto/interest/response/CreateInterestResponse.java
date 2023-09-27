@@ -10,11 +10,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateInterest {
-
-    private Long id;
-
-    public CreateInterest (InterestLecture interestLecture) {
-        this.id = interestLecture.getId();
-    }
+public class CreateInterestResponse {
+    private Long interestId;
 }

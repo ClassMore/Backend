@@ -8,7 +8,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DeleteOpinion {
+public class DeleteOpinionRequest {
 
     private Long id;
 

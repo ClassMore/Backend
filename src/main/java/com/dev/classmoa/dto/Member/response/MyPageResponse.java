@@ -11,13 +11,13 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MyPage {
+public class MyPageResponse {
 
     private String email;
     private String nickname;
     private Date birthDate;
 
-    public MyPage(Member member) {
+    public MyPageResponse(Member member) {
         this.email = member.getEmail();
         this.nickname = member.getNickname();
         this.birthDate = member.getBirthDate();

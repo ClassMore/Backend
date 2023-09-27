@@ -9,7 +9,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateComment {
+public class CreateCommentRequest {
 
     private String content;
     private Long opinionId;

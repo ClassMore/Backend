@@ -8,7 +8,9 @@ import com.dev.classmoa.domain.entity.InterestLecture;
 import com.dev.classmoa.domain.entity.Lecture;
 import com.dev.classmoa.domain.entity.Member;
 import com.dev.classmoa.domain.repository.InterestLectureRepository;
-import com.dev.classmoa.dto.Lecture.response.FindInterestLectures;
+import com.dev.classmoa.dto.Lecture.response.FindInterestLecturesResponse;
+import com.dev.classmoa.dto.interest.response.CreateInterestResponse;
+import com.dev.classmoa.dto.interest.response.FindInterestResponse;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,28 +20,30 @@ public class InterestService {
 	private final InterestLectureRepository interestLectureRepository;
 	private final LectureService lectureService;
 
-	public List<FindInterestLectures> getLectureListByMember(Long memberId){
+	public List<FindInterestLecturesResponse> getLectureListByMember(Long memberId){
 		List<InterestLecture> interests = interestLectureRepository.findInterestLecturesByMemberId(memberId);
 
 		return interests.stream()
 			.map(InterestLecture::getLecture)
-			.map(FindInterestLectures::new)
+			.map(FindInterestLecturesResponse::new)
 			.toList();
 	}
 
-	public Boolean getIsInterested(String lectureId, Member member){
-		return interestLectureRepository.existsInterestLectureByMemberIdAndLectureId(
-			member.getId(), lectureId);
+	public FindInterestResponse getIsInterested(String lectureId, Member member){
+		Boolean isInterested = interestLectureRepository.findInterestLectureByMemberIdAndLecture_LectureId(
+			member.getId(), lectureId).isPresent();
+		return new FindInterestResponse(isInterested);
 	}
 
-	public Long create(String lectureId, Member member){
+	public CreateInterestResponse create(String lectureId, Member member){
 		Lecture lecture = lectureService.getLectureDetail(lectureId);
-		return interestLectureRepository.save(
+		InterestLecture interestLecture = interestLectureRepository.save(
 			InterestLecture.builder()
 				.member(member)
 				.lecture(lecture)
 				.build()
-		).getId();
+		);
+		return new CreateInterestResponse(interestLecture.getId());
 	}
 
 	//TODO:  예외 처리 [규민]

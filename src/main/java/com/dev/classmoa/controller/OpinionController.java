@@ -10,13 +10,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dev.classmoa.domain.entity.Member;
-import com.dev.classmoa.dto.comment.request.CreateComment;
-import com.dev.classmoa.dto.comment.request.DeleteComment;
-import com.dev.classmoa.dto.comment.request.EditComment;
-import com.dev.classmoa.dto.opinion.request.CreateOpinion;
-import com.dev.classmoa.dto.opinion.request.DeleteOpinion;
-import com.dev.classmoa.dto.opinion.request.EditOpinion;
-import com.dev.classmoa.dto.opinion.response.FindOpinion;
+import com.dev.classmoa.dto.comment.request.CreateCommentRequest;
+import com.dev.classmoa.dto.comment.request.DeleteCommentRequest;
+import com.dev.classmoa.dto.comment.request.EditCommentRequest;
+import com.dev.classmoa.dto.comment.response.CreateCommentResponse;
+import com.dev.classmoa.dto.comment.response.DeleteCommentResponse;
+import com.dev.classmoa.dto.comment.response.EditCommentResponse;
+import com.dev.classmoa.dto.opinion.request.CreateOpinionRequest;
+import com.dev.classmoa.dto.opinion.request.DeleteOpinionRequest;
+import com.dev.classmoa.dto.opinion.request.EditOpinionRequest;
+import com.dev.classmoa.dto.opinion.response.CreateOpinionResponse;
+import com.dev.classmoa.dto.opinion.response.DeleteOpinionResponse;
+import com.dev.classmoa.dto.opinion.response.EditOpinionResponse;
+import com.dev.classmoa.dto.opinion.response.FindOpinionResponse;
 import com.dev.classmoa.service.OpinionService;
 
 import lombok.RequiredArgsConstructor;
@@ -28,45 +34,45 @@ public class OpinionController {
 
     // 의견리스트 조회 + 댓글 조회
     @GetMapping("/lecture/{lectureId}/opinions")
-    public ResponseEntity<List<FindOpinion>> getOpinions(@PathVariable String lectureId){
-        List<FindOpinion> opinions = opinionService.getOpinions(lectureId)
-                .stream().map(FindOpinion::new).toList();
+    public ResponseEntity<List<FindOpinionResponse>> getOpinions(@PathVariable String lectureId){
+        List<FindOpinionResponse> opinions = opinionService.getOpinions(lectureId)
+                .stream().map(FindOpinionResponse::new).toList();
         return ResponseEntity.ok(opinions);
     }
 
     //TODO: PathVariable << 여기
     // 의견 등록
     @PostMapping("/user/lecture/{lecture_id}/opinion")
-    public Long createOpinion(CreateOpinion createOpinion, @PathVariable("lecture_id") String lectureId, Member member){
-        return opinionService.create(createOpinion.toEntity(), lectureId, member);
+    public ResponseEntity<CreateOpinionResponse> createOpinion(CreateOpinionRequest createOpinion, @PathVariable("lecture_id") String lectureId, Member member){
+        return ResponseEntity.ok(opinionService.create(createOpinion.toEntity(), lectureId, member));
     }
 
     // 의견 수정
     @PostMapping("/user/lecture/opinion")
-    public Boolean editOpinion(EditOpinion editOpinion, Member member){
-        return opinionService.edit(editOpinion.toEntity(), member);
+    public ResponseEntity<EditOpinionResponse> editOpinion(EditOpinionRequest editOpinion, Member member){
+        return ResponseEntity.ok(opinionService.edit(editOpinion.toEntity(), member));
     }
 
     // 의견 삭제
     @DeleteMapping("/user/lecture/opinion")
-    public void deleteOpinion(DeleteOpinion deleteOpinion, Member member){
-        opinionService.delete(deleteOpinion.toEntity(), member);
+    public ResponseEntity<DeleteOpinionResponse> deleteOpinion(DeleteOpinionRequest deleteOpinion, Member member){
+        return ResponseEntity.ok(opinionService.delete(deleteOpinion.toEntity(), member));
     }
 
     // 댓글 등록
-    @PostMapping("/user/opinion/comment/")
-    public Long createComment(CreateComment createComment, Member member){
-        return opinionService.commentCreate(createComment.toEntity(), member);
+    @PostMapping("/user/opinion/{opinion_id}/comment")
+    public ResponseEntity<CreateCommentResponse> createComment(CreateCommentRequest createComment, @PathVariable("opinion_id") Long opinionId, Member member){
+        return ResponseEntity.ok(opinionService.commentCreate(createComment.toEntity(), opinionId, member));
     }
     // 댓글 수정
     @PostMapping("/user/opinion/comment")
-    public Boolean editComment(EditComment editComment, Member member){
-        return opinionService.commentEdit(editComment.toEntity(), member);
+    public ResponseEntity<EditCommentResponse> editComment(EditCommentRequest editComment, Member member){
+        return ResponseEntity.ok(opinionService.commentEdit(editComment.toEntity(), member));
     }
 
     // 댓글 삭제
     @DeleteMapping("/user/opinion/comment")
-    public Boolean deleteComment(DeleteComment deleteComment, Member member){
-        return opinionService.commentDelete(deleteComment.toEntity(), member);
+    public ResponseEntity<DeleteCommentResponse> deleteComment(DeleteCommentRequest deleteComment, Member member){
+        return ResponseEntity.ok(opinionService.commentDelete(deleteComment.toEntity(), member));
     }
 }

@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class FindOpinion {
+public class FindOpinionResponse {
 
     private Long id;
     private String content;
@@ -22,7 +22,7 @@ public class FindOpinion {
     private List<Comment> comments;
     private Boolean isModified;
 
-    public FindOpinion(Opinion opinion) {
+    public FindOpinionResponse(Opinion opinion) {
         this.id = opinion.getId();
         this.content = opinion.getContent();
         this.member = opinion.getMember();
