@@ -19,6 +19,7 @@ public class FindLectureDetail {
     private String title;
     private String instructor;
     private String siteLink;
+    private String salePercent;
     private int ordinaryPrice;
     private int salePrice;
 
@@ -32,5 +33,6 @@ public class FindLectureDetail {
         this.siteLink = lecture.getSiteLink();
         this.ordinaryPrice = lecture.getOrdinaryPrice();
         this.salePrice = lecture.getSalePrice();
+        this.salePercent = lecture.getSalePercent();
     }
 }

@@ -29,6 +29,7 @@ public class LectureController {
 //        return ResponseEntity.ok(new FindLectureDetail(lectureService.getLectureDetail(id)));
 //    }
 
+    //TODO: PathVariable
     @GetMapping("/lecture/{id}")
     public ResponseEntity<FindLectureDetail> getLecture(@PathVariable String lectureId) {
         return ResponseEntity.ok(new FindLectureDetail(lectureService.getLectureDetail(lectureId)));

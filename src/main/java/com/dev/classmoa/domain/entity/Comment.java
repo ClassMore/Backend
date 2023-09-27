@@ -27,10 +27,11 @@ public class Comment {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @Setter
     private String content;
     private LocalDateTime writeDate;
     private Boolean isModified;
+    private Boolean isDeleted;
+
 
     public Comment(String content) {
         this.content = content;
@@ -53,7 +54,21 @@ public class Comment {
         this.id = id;
         this.content = content;
         this.isModified = isModified;
+    }
 
+    @Builder
+    public Comment(String content, Opinion opinion, Member member) {
+        this.content = content;
+        this.opinion = opinion;
+        this.member = member;
+    }
+
+    public void deleteComment(Boolean isDeleted){
+        this.isDeleted = isDeleted;
+    }
+    public void editComment(String content) {
+        this.content = content;
+        this.isModified = true;
     }
 
 
@@ -62,12 +77,4 @@ public class Comment {
     //     opinion.getComments().add(this);
     // }
 
-    @Builder
-    public Comment(Opinion opinion, Member member, String content, LocalDateTime writeDate, Boolean isModified) {
-        this.opinion = opinion;
-        this.member = member;
-        this.content = content;
-        this.writeDate = writeDate;
-        this.isModified = isModified;
-    }
 }

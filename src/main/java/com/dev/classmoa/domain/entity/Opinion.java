@@ -29,7 +29,6 @@ public class Opinion {
     @JoinColumn(name = "lecture_id", referencedColumnName = "lecture_id")
     private Lecture lecture;
 
-
     @OneToMany(mappedBy = "opinion", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 
@@ -37,6 +36,7 @@ public class Opinion {
     private LocalDateTime writeDate;
     private Boolean isModified;
     private Boolean isDeleted;
+
 
     @Builder(builderMethodName = "creater", buildMethodName = "create")
     public Opinion(String content) {
@@ -60,8 +60,14 @@ public class Opinion {
         this.lecture = lecture;
     }
 
+    // flag로 삭제처리하기 위한 함수
     public void deleteOpinion(Boolean isDeleted){
         this.isDeleted = isDeleted;
+    }
+
+    public void editOpinion(String content){
+        this.content = content;
+        this.isModified = true;
     }
 
     // public void setLecture(Lecture lecture){

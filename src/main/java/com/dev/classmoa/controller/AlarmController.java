@@ -28,17 +28,24 @@ public class AlarmController {
 	public ResponseEntity<List<FindAlarmLectures>> getAlarms(Member member){
 		return ResponseEntity.ok(alarmService.getLectureListByMember(member.getId()));
 	}
+	// 알람내역 한개 조회
+	@GetMapping("/alarm/{lecture_id}")
+	public Boolean getAlarm(@PathVariable("lecture_id") String lectureId, Member member){
+		return alarmService.getIsAlarmed(lectureId, member);
+	}
 
 	// 알람신청
+	//TODO: pathvariable 로 매핑을 시켜줄려면 이름이 같거나 @PathVariable("lecture_id")라고 선언 해야 가능한 걸로 앎 [가영]
 	@PostMapping("/alarm/{lecture_id}")
-	public Long createAlarm(@PathVariable String lectureId, Member member){
+	public Long createAlarm(@PathVariable("lecture_id") String lectureId, Member member){
 		return alarmService.create(lectureId, member);
 	}
 
 	// 알람신청 해제
-	@DeleteMapping("/alarm")
-	public void deleteAlarm(Alarm alarm, Member member){
-		alarmService.delete(alarm, member);
+	// TODO: api 문서에는 Pathvariable 로 받는 것 같은데 아닌가 [창준]
+	@DeleteMapping("/alarm/{alarm_id}")
+	public void cancelAlarm(@PathVariable("alarm_id") Long alarmId, Member member){
+		alarmService.cancel(alarmId, member);
 	}
 
 }

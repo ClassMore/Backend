@@ -1,6 +1,7 @@
 package com.dev.classmoa.domain.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -51,8 +52,13 @@ public class Lecture {
         this.siteLink = siteLink;
         this.imageLink = imageLink;
     }
-    //연관관계 메서드 작성
 
+    @Builder(builderMethodName = "finder", buildMethodName = "find")
+    public Lecture(String lectureId){
+        this.lectureId = lectureId;
+    }
+
+    //연관관계 메서드 작성
     // public void setLectureTags(LectureTag lectureTag){
     //     this.getLectureTags().add(lectureTag);
     //     lectureTag.setLectures(this);

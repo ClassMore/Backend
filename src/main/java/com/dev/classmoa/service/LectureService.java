@@ -17,6 +17,8 @@ public class LectureService {
     public List<Lecture> getLectureList(Pageable pageable) {
         return lectureRepository.findAll(pageable).getContent();
     }
+    
+    // TODO: lecture_id 로 찾으면 예전에 받은 강의들까지 싹다 받아 올 것 같은데
     public Lecture getLectureDetail(String lectureId) {
         return lectureRepository.findByLectureId(lectureId);
     }

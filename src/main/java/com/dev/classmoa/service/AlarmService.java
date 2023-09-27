@@ -29,6 +29,11 @@ public class AlarmService {
 			.toList();
 	}
 
+	// 단일 조회
+	public Boolean getIsAlarmed(String lectureId, Member member){
+		return alarmRepository.existsAlarmByMemberIdAndLectureId(member.getId(), lectureId);
+	}
+
 	// 신청
 	public Long create(String lectureId, Member member){
 		Lecture lecture = lectureService.getLectureDetail(lectureId);
@@ -42,9 +47,12 @@ public class AlarmService {
 	}
 
 	// 삭제
-	public void delete(Alarm alarm, Member member) {
-		Alarm alarmlecture = alarmRepository.findById(alarm.getId())
+	public void cancel(Long alarmId, Member member) {
+		//TODO: 예외 함수 커스터마이징해서 넣기 [규민]
+		Alarm alarmlecture = alarmRepository.findById(alarmId)
 			.orElseThrow(() -> new IllegalArgumentException("not found"));
+
+		//TODO: methodArgumentResolver 에서 처리하는 로직에 따라 달라질 수 있다.[규민]
 		if(alarmlecture.getMember().equals(member)) {
 			alarmRepository.deleteById(alarmlecture.getId());
 		}

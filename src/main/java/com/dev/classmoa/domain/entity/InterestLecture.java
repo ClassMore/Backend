@@ -30,6 +30,11 @@ public class InterestLecture {
         this.id = id;
     }
 
+    @Builder(builderMethodName = "finder", buildMethodName = "find")
+    public InterestLecture(Lecture lecture){
+        this.lecture = lecture;
+    }
+
     @Builder
     public InterestLecture(Member member, Lecture lecture) {
         this.member = member;
