@@ -1,44 +1,76 @@
 package com.dev.classmoa.service;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-
+import java.util.List;
+import com.dev.classmoa.domain.entity.Alarm;
 import com.dev.classmoa.domain.entity.Member;
 import com.dev.classmoa.domain.repository.AlarmRepository;
+import com.dev.classmoa.domain.repository.MemberRepository;
+import com.dev.classmoa.dto.Lecture.response.FindAlarmLecturesResponse;
 import com.dev.classmoa.dto.alarm.response.CreateAlarmResponse;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+@SpringBootTest
+@Transactional
 class AlarmServiceTest {
+    @Autowired
+    MemberRepository memberRepository;
 
-	@Test
-	@DisplayName("알람 신청한 강의 목록을 보여준다.")
-	void createAlarm() {
-		// given
-		// String lectureId = "artstudyjwLee508";
-		// Member member =
-		// // when
-		// CreateAlarmResponse response = AlarmService.create(, member);
-		// Long savedAlarmId = response.getAlarmId();
-		//
-		// // then
-		// Password savedAlarm = AlarmRepository.findById(savedAlarmId);
-		// assertThat(savedAlarm.getAlarmId()).isEqualTo(savedAlarmId);
-	}
+    @Autowired
+    AlarmService alarmService;
 
-	@Test
-	void getLectureListByMember() {
-	}
+    @Autowired
+    AlarmRepository alarmRepository;
 
-	@Test
-	void getIsAlarmed() {
-	}
+    @Test
+    @DisplayName("알람을 신청한다.")
+    @Rollback(value = false)
+    void createAlarm() {
+        // given
+        String lectureId = "artstudyjwLee508";
+        Member member = memberRepository.findById(1L).get();
 
-	@Test
-	void create() {
-	}
+        // when
+        CreateAlarmResponse response = alarmService.create(lectureId, member);
+        Long savedAlarmId = response.getAlarmId();
 
-	@Test
-	void cancel() {
-	}
+        // then
+        assertThat(alarmRepository.findById(2L).get().getMember())
+                .isEqualTo(member);
+    }
+
+    @Test
+    @DisplayName("알람 내역을 조회한다")
+    void getAlarmList() {
+        // given
+        Long memberId = 1L;
+
+        // when
+        List<FindAlarmLecturesResponse> alarmList = alarmService.getLectureListByMember(memberId);
+
+        // then
+        assertThat(alarmList.size()).isEqualTo(2);
+    }
+
+    @Test
+    @DisplayName("알람을 취소한다")
+    void cancelAlarm() {
+        // given
+        Long alarmId = 2L;
+        Member member = memberRepository.findById(1L).get();
+
+        // when
+        alarmService.cancel(alarmId, member);
+
+        // then
+        assertThat(alarmRepository.findById(alarmId).isPresent())
+                .isFalse();
+
+    }
 }

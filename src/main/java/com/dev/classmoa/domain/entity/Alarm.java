@@ -13,7 +13,6 @@ public class Alarm {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "tag_id")
     private Long id;
 
     @ManyToOne(fetch = LAZY)

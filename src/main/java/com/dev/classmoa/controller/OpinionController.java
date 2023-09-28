@@ -55,8 +55,9 @@ public class OpinionController {
 
     // 의견 삭제
     @DeleteMapping("/user/lecture/opinion")
-    public ResponseEntity<DeleteOpinionResponse> deleteOpinion(DeleteOpinionRequest deleteOpinion, Member member){
-        return ResponseEntity.ok(opinionService.delete(deleteOpinion.toEntity(), member));
+    public ResponseEntity<Void> deleteOpinion(DeleteOpinionRequest deleteOpinion, Member member){
+        opinionService.delete(deleteOpinion.toEntity(), member);
+        return ResponseEntity.ok().build();
     }
 
     // 댓글 등록
