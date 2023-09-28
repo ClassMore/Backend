@@ -1,12 +1,20 @@
 package com.dev.classmoa.domain.entity;
 
+import static jakarta.persistence.FetchType.*;
 
-import jakarta.persistence.*;
-import lombok.*;
+import java.time.LocalDate;
 
-import java.util.Date;
-
-import static jakarta.persistence.FetchType.LAZY;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
@@ -24,7 +32,7 @@ public class Member {
     private String email;
     private String nickname;
     private String password;
-    private Date birthDate;
+    private LocalDate birthDate;
 
     @Builder(builderMethodName = "login", buildMethodName = "loginbuild")
     public Member(String email, String password) {
@@ -33,10 +41,11 @@ public class Member {
     }
 
     @Builder(builderMethodName = "signup", buildMethodName = "signupbuild")
-    public Member(String email, String nickname, String password, Date birthDate) {
+    public Member(String email, String nickname, String password, LocalDate birthDate) {
         this.email = email;
         this.nickname = nickname;
         this.password = password;
         this.birthDate = birthDate;
+
     }
 }

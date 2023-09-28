@@ -17,7 +17,7 @@ import java.util.List;
 public class LectureController {
     private final LectureService lectureService;
 
-    @GetMapping("/")
+    @GetMapping("/lecture")
     public ResponseEntity<List<FindLectureResponse>> getLectures(Pageable pageable) {
         return ResponseEntity.ok(lectureService.getLectureList(pageable));
     }

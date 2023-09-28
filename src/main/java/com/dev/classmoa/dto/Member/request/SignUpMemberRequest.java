@@ -1,9 +1,14 @@
 package com.dev.classmoa.dto.Member.request;
 
-import com.dev.classmoa.domain.entity.Member;
-import lombok.*;
+import java.time.LocalDate;
 
-import java.util.Date;
+import com.dev.classmoa.domain.entity.Member;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -15,7 +20,7 @@ public class SignUpMemberRequest {
     private String email;
     private String nickname;
     private String password;
-    private Date birthDate;
+    private LocalDate birthDate;
 
     public Member toEntity() {
         return Member.signup()
