@@ -53,9 +53,10 @@ public class Opinion {
     }
 
     @Builder
-    public Opinion(String content, boolean isModified, Member member, Lecture lecture) {
+    public Opinion(String content, boolean isModified, Member member, Lecture lecture, boolean isDeleted) {
         this.content = content;
         this.isModified = isModified;
+        this.isDeleted = isDeleted;
         this.member = member;
         this.lecture = lecture;
     }
