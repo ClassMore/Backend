@@ -2,7 +2,7 @@ package com.dev.classmoa.service;
 
 import com.dev.classmoa.domain.entity.Lecture;
 import com.dev.classmoa.domain.repository.LectureRepository;
-import com.dev.classmoa.dto.Lecture.response.FindLectureResponse;
+import com.dev.classmoa.dto.Lecture.response.FindLectureListResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -15,10 +15,10 @@ import java.util.List;
 public class LectureService {
     private final LectureRepository lectureRepository;
 
-    public List<FindLectureResponse> getLectureList(Pageable pageable) {
+    public List<FindLectureListResponse> getLectureList(Pageable pageable) {
         List<Lecture> lectures = lectureRepository.findAllByDate(pageable, LocalDate.now()).getContent();
         return lectures.stream()
-                .map(FindLectureResponse::new)
+                .map(FindLectureListResponse::new)
                 .toList();
     }
 

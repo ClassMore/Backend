@@ -1,8 +1,7 @@
 package com.dev.classmoa.service;
 
 import com.dev.classmoa.domain.repository.LectureTagRepository;
-import com.dev.classmoa.dto.Lecture.response.FindLectureResponse;
-import org.assertj.core.api.Assertions;
+import com.dev.classmoa.dto.Lecture.response.FindLectureListResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +28,7 @@ class LectureTagServiceTest {
         Long tagId = 1L;
 
         // when
-        List<FindLectureResponse> lectures = lectureTagService.getLectureListByTag(tagId);
+        List<FindLectureListResponse> lectures = lectureTagService.getLectureListByTag(tagId);
 
         // then
         assertThat(lectures.size()).isEqualTo(2);

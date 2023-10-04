@@ -1,9 +1,7 @@
 package com.dev.classmoa.service;
 
 
-import com.dev.classmoa.domain.entity.Member;
-import com.dev.classmoa.dto.Lecture.response.FindLectureDetailResponse;
-import com.dev.classmoa.dto.Lecture.response.FindLectureResponse;
+import com.dev.classmoa.dto.Lecture.response.FindLectureListResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -17,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-import java.time.LocalDate;
 import java.util.List;
 
 @SpringBootTest
@@ -34,7 +31,7 @@ class LectureServiceTest {
 		Pageable pageable = PageRequest.of(0, 10);
 		
 		// when
-		List<FindLectureResponse> lectures = lectureService.getLectureList(pageable);
+		List<FindLectureListResponse> lectures = lectureService.getLectureList(pageable);
 
 		// then
 		assertThat(lectures.size()).isEqualTo(2);

@@ -1,7 +1,7 @@
 package com.dev.classmoa.controller;
 
 import com.dev.classmoa.dto.Lecture.response.FindLectureDetailResponse;
-import com.dev.classmoa.dto.Lecture.response.FindLectureResponse;
+import com.dev.classmoa.dto.Lecture.response.FindLectureListResponse;
 import com.dev.classmoa.service.LectureService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -19,7 +18,7 @@ public class LectureController {
     private final LectureService lectureService;
 
     @GetMapping("/lecture")
-    public ResponseEntity<List<FindLectureResponse>> getLectures(Pageable pageable) {
+    public ResponseEntity<List<FindLectureListResponse>> getLectures(Pageable pageable) {
         return ResponseEntity.ok(lectureService.getLectureList(pageable));
     }
 

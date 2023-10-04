@@ -9,9 +9,7 @@ import com.dev.classmoa.domain.repository.OpinionRepository;
 import com.dev.classmoa.dto.comment.response.CreateCommentResponse;
 import com.dev.classmoa.dto.comment.response.DeleteCommentResponse;
 import com.dev.classmoa.dto.comment.response.EditCommentResponse;
-import com.dev.classmoa.dto.opinion.request.DeleteOpinionRequest;
 import com.dev.classmoa.dto.opinion.response.CreateOpinionResponse;
-import com.dev.classmoa.dto.opinion.response.DeleteOpinionResponse;
 import com.dev.classmoa.dto.opinion.response.EditOpinionResponse;
 
 import lombok.RequiredArgsConstructor;
@@ -32,7 +30,8 @@ public class OpinionService {
         return opinionRepository.findAllByLecture_LectureIdAndIsDeleted(lectureId, false);
     }
 
-    public CreateOpinionResponse create(Opinion newOpinion, String lectureId, Member member){
+    //TODO: 반환 없고, dto?
+    public CreateOpinionResponse createOpinion(Opinion newOpinion, String lectureId, Member member){
         Lecture lecture = lectureService.getLectureDetail(lectureId);
         Opinion opinion = opinionRepository.save(
                 Opinion.builder()
@@ -45,9 +44,9 @@ public class OpinionService {
         return new CreateOpinionResponse(opinion.getId());
     }
 
-    // TODO: 업데이트라면 save 할 필요 없을 것 같은데, Setter 역할을 하는 메소드를 하나 만들자. [창준]
+    // TODO: 업데이트라면 save 할 필요 없을 것 같은데, Setter 역할을 하는 메소드를 하나 만들자. [창준] 멤버 다를때 예외???
     @Transactional
-    public EditOpinionResponse edit(Opinion opinion, Member member){
+    public EditOpinionResponse editOpinion(Opinion opinion, Member member){
         Opinion savedOpinion = opinionRepository.findById(opinion.getId())
             .orElseThrow(() -> new IllegalArgumentException("not found"));
 
@@ -60,7 +59,7 @@ public class OpinionService {
 
     // TODO: 예외 처리 함수
     @Transactional
-    public void delete(Opinion opinion, Member member) {
+    public void deleteOpinion(Opinion opinion, Member member) {
         Opinion savedOpinion = opinionRepository.findById(opinion.getId())
             .orElseThrow(() -> new IllegalArgumentException("not found"));
         if(savedOpinion.getMember().equals(member)) {
@@ -69,7 +68,7 @@ public class OpinionService {
     }
 
     // 댓글 생성
-    //TODO: ???? [가영]
+    //TODO: ???? [가영] 반환값???
     public CreateCommentResponse commentCreate(Comment newComment, Long opinionId, Member member){
         Opinion opinion = opinionRepository.getById(opinionId);
         Comment comment = commentRepository.save(

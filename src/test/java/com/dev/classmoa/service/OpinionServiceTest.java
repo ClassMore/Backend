@@ -1,7 +1,6 @@
 package com.dev.classmoa.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 import com.dev.classmoa.domain.entity.Comment;
 import com.dev.classmoa.domain.entity.Member;
@@ -14,16 +13,12 @@ import com.dev.classmoa.dto.comment.request.EditCommentRequest;
 import com.dev.classmoa.dto.comment.response.EditCommentResponse;
 import com.dev.classmoa.dto.opinion.request.CreateOpinionRequest;
 import com.dev.classmoa.dto.opinion.request.EditOpinionRequest;
-import com.dev.classmoa.dto.opinion.response.CreateOpinionResponse;
-import com.dev.classmoa.dto.opinion.response.DeleteOpinionResponse;
 import com.dev.classmoa.dto.opinion.response.EditOpinionResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.dev.classmoa.domain.entity.Lecture;
-import com.dev.classmoa.domain.repository.LectureRepository;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -57,7 +52,7 @@ class OpinionServiceTest {
 				.build();
 
 		//when
-		Long resultId = opinionService.create(newOpinion.toEntity(),lectureId, member).getId();
+		Long resultId = opinionService.createOpinion(newOpinion.toEntity(),lectureId, member).getId();
 
 		//then
 		assertThat(opinionRepository.findById(resultId).get().getMember())
@@ -87,7 +82,7 @@ class OpinionServiceTest {
 				.content("ㅎㅎㅎㅎㅎ")
 				.build();
 		//when
-		EditOpinionResponse response = opinionService.edit(editOpinion.toEntity(), member);
+		EditOpinionResponse response = opinionService.editOpinion(editOpinion.toEntity(), member);
 		Opinion editedOpinion = opinionRepository.findById(1L).get();
 
 		//then
@@ -103,7 +98,7 @@ class OpinionServiceTest {
 		Member member = memberRepository.findById(1L).get();
 
 		//when
-		opinionService.delete(opinion, member);
+		opinionService.deleteOpinion(opinion, member);
 		Opinion deletedOpinion = opinionRepository.findById(1L).get();
 
 		//then

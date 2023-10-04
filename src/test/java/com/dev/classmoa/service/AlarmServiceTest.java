@@ -1,7 +1,7 @@
 package com.dev.classmoa.service;
 
 import java.util.List;
-import com.dev.classmoa.domain.entity.Alarm;
+
 import com.dev.classmoa.domain.entity.Member;
 import com.dev.classmoa.domain.repository.AlarmRepository;
 import com.dev.classmoa.domain.repository.MemberRepository;
@@ -37,7 +37,7 @@ class AlarmServiceTest {
         Member member = memberRepository.findById(1L).get();
 
         // when
-        CreateAlarmResponse response = alarmService.create(lectureId, member);
+        CreateAlarmResponse response = alarmService.createAlarm(lectureId, member);
         Long savedAlarmId = response.getAlarmId();
 
         // then
@@ -52,7 +52,7 @@ class AlarmServiceTest {
         Long memberId = 1L;
 
         // when
-        List<FindAlarmLecturesResponse> alarmList = alarmService.getLectureListByMember(memberId);
+        List<FindAlarmLecturesResponse> alarmList = alarmService.getAlarmListByMember(memberId);
 
         // then
         assertThat(alarmList.size()).isEqualTo(2);
@@ -66,7 +66,7 @@ class AlarmServiceTest {
         Member member = memberRepository.findById(1L).get();
 
         // when
-        alarmService.cancel(alarmId, member);
+        alarmService.cancelAlarm(alarmId, member);
 
         // then
         assertThat(alarmRepository.findById(alarmId).isPresent())

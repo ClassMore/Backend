@@ -20,7 +20,6 @@ import com.dev.classmoa.dto.opinion.request.CreateOpinionRequest;
 import com.dev.classmoa.dto.opinion.request.DeleteOpinionRequest;
 import com.dev.classmoa.dto.opinion.request.EditOpinionRequest;
 import com.dev.classmoa.dto.opinion.response.CreateOpinionResponse;
-import com.dev.classmoa.dto.opinion.response.DeleteOpinionResponse;
 import com.dev.classmoa.dto.opinion.response.EditOpinionResponse;
 import com.dev.classmoa.dto.opinion.response.FindOpinionResponse;
 import com.dev.classmoa.service.OpinionService;
@@ -44,19 +43,19 @@ public class OpinionController {
     // 의견 등록
     @PostMapping("/user/lecture/{lecture_id}/opinion")
     public ResponseEntity<CreateOpinionResponse> createOpinion(CreateOpinionRequest createOpinion, @PathVariable("lecture_id") String lectureId, Member member){
-        return ResponseEntity.ok(opinionService.create(createOpinion.toEntity(), lectureId, member));
+        return ResponseEntity.ok(opinionService.createOpinion(createOpinion.toEntity(), lectureId, member));
     }
 
     // 의견 수정
     @PostMapping("/user/lecture/opinion")
     public ResponseEntity<EditOpinionResponse> editOpinion(EditOpinionRequest editOpinion, Member member){
-        return ResponseEntity.ok(opinionService.edit(editOpinion.toEntity(), member));
+        return ResponseEntity.ok(opinionService.editOpinion(editOpinion.toEntity(), member));
     }
 
     // 의견 삭제
     @DeleteMapping("/user/lecture/opinion")
     public ResponseEntity<Void> deleteOpinion(DeleteOpinionRequest deleteOpinion, Member member){
-        opinionService.delete(deleteOpinion.toEntity(), member);
+        opinionService.deleteOpinion(deleteOpinion.toEntity(), member);
         return ResponseEntity.ok().build();
     }
 

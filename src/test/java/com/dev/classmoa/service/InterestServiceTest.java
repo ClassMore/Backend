@@ -11,7 +11,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
@@ -43,7 +42,7 @@ class InterestServiceTest {
         Lecture lecture = lectureRepository.findByLectureIdAndDate("artstudyjwLee508", LocalDate.now());
 
         //when
-        interestService.create(lecture.getLectureId(), member);
+        interestService.createInterest(lecture.getLectureId(), member);
 
         //then
         List<InterestLecture> interestLectures = interestLectureRepository
@@ -59,7 +58,7 @@ class InterestServiceTest {
 
         // when
         List<FindInterestLecturesResponse> interestList = interestService
-                .getLectureListByMember(member.getId());
+                .getInterestListByMember(member.getId());
 
         // then
         assertThat(interestList.size()).isEqualTo(2);
@@ -73,7 +72,7 @@ class InterestServiceTest {
         Member member = memberRepository.findById(1L).get();
 
         // when
-        interestService.cancel(interestId, member);
+        interestService.cancelInterest(interestId, member);
 
         // then
         assertThat(interestLectureRepository.findById(interestId).isEmpty())

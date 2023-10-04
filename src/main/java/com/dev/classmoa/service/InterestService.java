@@ -10,7 +10,6 @@ import com.dev.classmoa.dto.interest.response.FindInterestResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -19,7 +18,7 @@ public class InterestService {
     private final InterestLectureRepository interestLectureRepository;
     private final LectureService lectureService;
 
-    public List<FindInterestLecturesResponse> getLectureListByMember(Long memberId) {
+    public List<FindInterestLecturesResponse> getInterestListByMember(Long memberId) {
         List<InterestLecture> interests = interestLectureRepository.findInterestLecturesByMemberId(memberId);
 
         return interests.stream()
@@ -34,25 +33,35 @@ public class InterestService {
         return new FindInterestResponse(isInterested);
     }
 
-    public CreateInterestResponse create(String lectureId, Member member) {
+    //TODO: 포스트맨 쓰는 싸가지들 처리  (좋아요 중복 처리) 반환 dto없애고 객체 없애고 save 예외처리
+    public void createInterest(String lectureId, Member member) {
         Lecture lecture = lectureService.getLectureDetail(lectureId);
-        InterestLecture interestLecture = interestLectureRepository.save(
-                InterestLecture.builder()
-                        .member(member)
-                        .lecture(lecture)
-                        .build()
-        );
-        return new CreateInterestResponse(interestLecture.getId());
+        try {
+            interestLectureRepository.save(
+                    InterestLecture.builder()
+                            .member(member)
+                            .lecture(lecture)
+                            .build()
+            );
+        } catch(Exception e) {
+            e.getMessage();
+            throw e;
+        }
     }
 
     //TODO:  예외 처리 [규민]
-    public void cancel(Long interestId, Member member) {
+    public void cancelInterest(Long interestId, Member member) {
         InterestLecture interest = interestLectureRepository.findById(interestId)
                 .orElseThrow(() -> new IllegalArgumentException("not found"));
 
         //TODO: 로직이 변결될 수 있음 [규민, 지훈]
-        if (interest.getMember().equals(member)) {
-            interestLectureRepository.deleteById(interest.getId());
+        try {
+            if (interest.getMember().equals(member)) {
+                interestLectureRepository.deleteById(interest.getId());
+            }
+        } catch(Exception e) {
+            e.getMessage();
+            throw e;
         }
     }
 }
