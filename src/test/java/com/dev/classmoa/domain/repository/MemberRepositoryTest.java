@@ -21,7 +21,6 @@ class MemberRepositoryTest {
 	void insert(){
 		memberRepository.save(
 			Member.signup()
-				.birthDate(LocalDate.now())
 				.email("aaa@aaa.com")
 				.nickname("aaaa")
 				.password("asf;sfgi")

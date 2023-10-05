@@ -1,6 +1,7 @@
 package com.dev.classmoa.service;
 
 import com.dev.classmoa.domain.entity.Alarm;
+import com.dev.classmoa.domain.entity.InterestLecture;
 import com.dev.classmoa.domain.entity.Lecture;
 import com.dev.classmoa.domain.entity.Member;
 import com.dev.classmoa.domain.repository.AlarmRepository;
@@ -89,46 +90,46 @@ class AlarmServiceTest {
         Member member = Member.signup()
                 .email("123@gmail.com")
                 .password("123")
-                .birthDate(LocalDate.now())
                 .nickname("동그리")
                 .signupbuild();
-        Member savedMember = memberRepository.save(member);
-        System.out.println("savedMember = " + savedMember.getId());
+
+        memberRepository.save(member);
 
         Alarm alarm1 = Alarm.builder()
-                .member(savedMember)
+                .member(member)
                 .lecture(lecture1)
                 .customPrice(100000)
                 .build();
 
         Alarm alarm2 = Alarm.builder()
-                .member(savedMember)
+                .member(member)
                 .lecture(lecture2)
                 .customPrice(90000)
                 .build();
 
         alarmRepository.save(alarm1);
-        Alarm alarm = alarmRepository.save(alarm2);
-        System.out.println("alarm.getCustomPrice() = " + alarm.getCustomPrice());
+        alarmRepository.save(alarm2);
     }
 
     @Test
-    @DisplayName("lectureId와 회원정보를 받아서 해당 강의에 대한 알람을 신청한다.")
+    @DisplayName("lecture 정보와 회원 정보를 받아서 해당 강의에 대한 알람을 신청 한다.")
     void createAlarm() {
         // given
-        String lectureId = "카클스3";
+        Long memberId = 1L;
         Member member = memberRepository.findById(1L).get();
+        Lecture lecture = lectureRepository.findByLectureIdAndDate("카클스3", LocalDate.now());
 
         // when
-        alarmService.createAlarm(lectureId, member);
+        alarmService.createAlarm(lecture.getLectureId(), member);
 
         // then
-        assertThat(alarmRepository.findById(3L).get().getMember())
-                .isEqualTo(member);
+        List<Alarm> alarms = alarmRepository
+                .findAlarmsByMemberId(memberId);
+        assertThat(alarms.get(0).getMember().getId()).isEqualTo(memberId);
     }
 
     @Test
-    @DisplayName("회원정보를 받아서 알람 내역을 조회한다")
+    @DisplayName("memberId를 받아서 알람 내역을 조회 한다.")
     void getAlarmList() {
         // given
         Long memberId = 1L;
@@ -141,7 +142,7 @@ class AlarmServiceTest {
     }
 
     @Test
-    @DisplayName("lectureId와 회원정보를 받아서 알람을 취소한다")
+    @DisplayName("alarmId와 회원 정보를 받아서 알람을 취소 한다.")
     void cancelAlarm() {
         // given
         Long alarmId = 2L;
