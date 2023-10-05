@@ -1,5 +1,6 @@
 package com.dev.classmoa.domain.entity;
 
+import com.dev.classmoa.dto.opinion.request.DeleteOpinionRequest;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -52,6 +53,7 @@ public class Opinion {
         this.content = content;
     }
 
+
     @Builder
     public Opinion(String content, boolean isModified, Member member, Lecture lecture, boolean isDeleted) {
         this.content = content;
@@ -60,6 +62,7 @@ public class Opinion {
         this.member = member;
         this.lecture = lecture;
     }
+
 
     // flag로 삭제처리하기 위한 함수
     public void deleteOpinion(Boolean isDeleted){

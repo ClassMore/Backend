@@ -42,37 +42,37 @@ public class OpinionController {
     //TODO: PathVariable << 여기
     // 의견 등록
     @PostMapping("/user/lecture/{lecture_id}/opinion")
-    public ResponseEntity<CreateOpinionResponse> createOpinion(CreateOpinionRequest createOpinion, @PathVariable("lecture_id") String lectureId, Member member){
-        return ResponseEntity.ok(opinionService.createOpinion(createOpinion.toEntity(), lectureId, member));
+    public void createOpinion(CreateOpinionRequest createOpinion, @PathVariable("lecture_id") String lectureId, Member member){
+        opinionService.createOpinion(createOpinion, lectureId, member);
     }
 
     // 의견 수정
     @PostMapping("/user/lecture/opinion")
     public ResponseEntity<EditOpinionResponse> editOpinion(EditOpinionRequest editOpinion, Member member){
-        return ResponseEntity.ok(opinionService.editOpinion(editOpinion.toEntity(), member));
+        return ResponseEntity.ok(opinionService.editOpinion(editOpinion, member));
     }
 
     // 의견 삭제
     @DeleteMapping("/user/lecture/opinion")
     public ResponseEntity<Void> deleteOpinion(DeleteOpinionRequest deleteOpinion, Member member){
-        opinionService.deleteOpinion(deleteOpinion.toEntity(), member);
+        opinionService.deleteOpinion(deleteOpinion, member);
         return ResponseEntity.ok().build();
     }
 
     // 댓글 등록
     @PostMapping("/user/opinion/{opinion_id}/comment")
-    public ResponseEntity<CreateCommentResponse> createComment(CreateCommentRequest createComment, @PathVariable("opinion_id") Long opinionId, Member member){
-        return ResponseEntity.ok(opinionService.commentCreate(createComment.toEntity(), opinionId, member));
+    public void createComment(CreateCommentRequest createComment, @PathVariable("opinion_id") Long opinionId, Member member){
+        opinionService.commentCreate(createComment, opinionId, member);
     }
     // 댓글 수정
     @PostMapping("/user/opinion/comment")
     public ResponseEntity<EditCommentResponse> editComment(EditCommentRequest editComment, Member member){
-        return ResponseEntity.ok(opinionService.commentEdit(editComment.toEntity(), member));
+        return ResponseEntity.ok(opinionService.commentEdit(editComment, member));
     }
 
     // 댓글 삭제
     @DeleteMapping("/user/opinion/comment")
     public ResponseEntity<DeleteCommentResponse> deleteComment(DeleteCommentRequest deleteComment, Member member){
-        return ResponseEntity.ok(opinionService.commentDelete(deleteComment.toEntity(), member));
+        return ResponseEntity.ok(opinionService.commentDelete(deleteComment, member));
     }
 }

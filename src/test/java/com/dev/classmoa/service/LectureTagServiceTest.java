@@ -22,7 +22,7 @@ class LectureTagServiceTest {
     LectureTagRepository lectureTagRepository;
 
     @Test
-    @DisplayName("태그로 강의리스트 조회하기")
+    @DisplayName("tagId를 받아서 태그로 강의리스트 조회하기")
     void getLectureListByTag() {
         // given
         Long tagId = 1L;

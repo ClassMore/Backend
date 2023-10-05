@@ -2,6 +2,7 @@ package com.dev.classmoa.dto.comment.request;
 
 import com.dev.classmoa.domain.entity.Comment;
 import com.dev.classmoa.domain.entity.Opinion;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 @Getter
@@ -11,6 +12,7 @@ import lombok.*;
 @AllArgsConstructor
 public class CreateCommentRequest {
 
+    @Size(max = 255)
     private String content;
     private Long opinionId;
 

@@ -42,8 +42,10 @@ public class Lecture {
     @OneToMany(mappedBy = "lecture", cascade = CascadeType.ALL)
     private List<Opinion> opinions = new ArrayList<>();
 
-    public Lecture(String title, String instructor, String companyName, int ordinaryPrice, int salePrice,
+    @Builder
+    public Lecture(String lectureId, String title, String instructor, String companyName, int ordinaryPrice, int salePrice,
                    String salePercent, String siteLink, String imageLink) {
+        this.lectureId = lectureId;
         this.title = title;
         this.instructor = instructor;
         this.companyName = companyName;

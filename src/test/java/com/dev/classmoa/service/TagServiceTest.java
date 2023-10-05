@@ -25,7 +25,7 @@ class TagServiceTest {
     TagRepository tagRepository;
 
     @Test
-    @DisplayName("태그 리스트를 가져온다.")
+    @DisplayName("페이지 정보를 받아서 태그 리스트를 가져온다.")
     void getTagList(){
         // given
         Pageable pageable = PageRequest.of(0, 10);

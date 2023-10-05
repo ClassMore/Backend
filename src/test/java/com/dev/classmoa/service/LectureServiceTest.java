@@ -25,7 +25,7 @@ class LectureServiceTest {
 	LectureService lectureService;
 
 	@Test
-	@DisplayName("강의 리스트를 가져온다.")
+	@DisplayName("페이지 정보를 받아서 강의 리스트를 가져온다.")
 	void getLectureList() {
 		// given
 		Pageable pageable = PageRequest.of(0, 10);
@@ -38,7 +38,7 @@ class LectureServiceTest {
 	}
 
 	@Test
-	@DisplayName("강의 상세정보를 가져온다.")
+	@DisplayName("lectureId를 받아서 강의 상세정보를 가져온다.")
 	void getLectureDetail() {
 		// given
 		String lectureId = "artstudyjwLee508";

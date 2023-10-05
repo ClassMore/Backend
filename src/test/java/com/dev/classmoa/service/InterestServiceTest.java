@@ -6,7 +6,7 @@ import com.dev.classmoa.domain.entity.Member;
 import com.dev.classmoa.domain.repository.InterestLectureRepository;
 import com.dev.classmoa.domain.repository.LectureRepository;
 import com.dev.classmoa.domain.repository.MemberRepository;
-import com.dev.classmoa.dto.Lecture.response.FindInterestLecturesResponse;
+import com.dev.classmoa.dto.interest.response.FindInterestLecturesResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ class InterestServiceTest {
     LectureRepository lectureRepository;
 
     @Test
-    @DisplayName("강의 좋아요를 등록한다")
+    @DisplayName("lectureId와 회원정보를 받아서 강의 좋아요를 등록한다")
     void createInterest() {
         //given
         Long memberId = 1L;
@@ -51,7 +51,7 @@ class InterestServiceTest {
     }
 
     @Test
-    @DisplayName("좋아요 내역을 조회한다")
+    @DisplayName("회원 정보를 받아서 좋아요 내역을 조회한다")
     void getInterestList() {
         // given
         Member member = memberRepository.findById(1L).get();
@@ -65,7 +65,7 @@ class InterestServiceTest {
     }
 
     @Test
-    @DisplayName("좋아요를 취소한다")
+    @DisplayName("lectureId와 회원정보를 받아서 좋아요를 취소한다")
     void cancelInterest() {
         // given
         Long interestId = 2L;

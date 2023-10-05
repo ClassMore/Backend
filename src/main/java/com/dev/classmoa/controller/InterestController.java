@@ -10,8 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dev.classmoa.domain.entity.Member;
-import com.dev.classmoa.dto.Lecture.response.FindInterestLecturesResponse;
-import com.dev.classmoa.dto.interest.response.CreateInterestResponse;
+import com.dev.classmoa.dto.interest.response.FindInterestLecturesResponse;
 import com.dev.classmoa.dto.interest.response.FindInterestResponse;
 import com.dev.classmoa.service.InterestService;
 
