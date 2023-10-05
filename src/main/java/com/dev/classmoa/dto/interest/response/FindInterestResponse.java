@@ -1,5 +1,6 @@
 package com.dev.classmoa.dto.interest.response;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,6 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FindInterestResponse {
-	private Boolean isInterested;
+
+	@NotNull
+	private Boolean isInterested = false;
 }
 

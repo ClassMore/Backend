@@ -2,6 +2,7 @@ package com.dev.classmoa.dto.tag.response;
 
 import com.dev.classmoa.domain.entity.Tag;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,6 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class FindTagResponse {
 
+    @Positive
     private Long id;
 
     @Size(max = 255)

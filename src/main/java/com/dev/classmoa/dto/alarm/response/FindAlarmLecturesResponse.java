@@ -2,6 +2,7 @@ package com.dev.classmoa.dto.alarm.response;
 
 import com.dev.classmoa.domain.entity.Lecture;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,6 +15,7 @@ import jakarta.validation.constraints.Size;
 @AllArgsConstructor
 public class FindAlarmLecturesResponse {
 
+    @Positive
     private Long id;
 
     @Size(max = 255)

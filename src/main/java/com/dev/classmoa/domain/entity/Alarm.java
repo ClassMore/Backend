@@ -37,14 +37,6 @@ public class Alarm {
         this.member = member;
     }
 
-    @Builder(builderMethodName = "canceler", buildMethodName = "cancel")
-    public Alarm(Long id) { this.id = id; }
-
-    @Builder(builderMethodName = "finder", buildMethodName = "find")
-    public Alarm(Lecture lecture){
-        this.lecture = lecture;
-    }
-
     @Builder
     public Alarm(Member member, Lecture lecture, int customPrice) {
         this.member = member;

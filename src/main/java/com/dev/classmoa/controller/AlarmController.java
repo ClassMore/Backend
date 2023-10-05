@@ -2,6 +2,7 @@ package com.dev.classmoa.controller;
 
 import java.util.List;
 
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,15 +43,10 @@ public class AlarmController {
 
 	// 알람신청 해제
 	// TODO: api 문서에는 Pathvariable 로 받는 것 같은데 아닌가 [창준]
-	@DeleteMapping("/alarm/{alarm_id}")
-	public ResponseEntity<Void> cancelAlarm(@PathVariable("alarm_id") Long alarmId, Member member){
-		try {
-			alarmService.cancelAlarm(alarmId, member);
-		} catch (Exception e) {
 
-		}
-		
-		return ResponseEntity.ok().build();
+	@DeleteMapping("/alarm/{alarm_id}")
+	public void cancelAlarm(@PathVariable("alarm_id") @Valid Long alarmId, Member member){
+		alarmService.cancelAlarm(alarmId, member);
 	}
 
 }

@@ -32,7 +32,6 @@ public class Member {
     private String email;
     private String nickname;
     private String password;
-    private LocalDate birthDate;
 
     @Builder(builderMethodName = "login", buildMethodName = "loginbuild")
     public Member(String email, String password) {
@@ -41,10 +40,9 @@ public class Member {
     }
 
     @Builder(builderMethodName = "signup", buildMethodName = "signupbuild")
-    public Member(String email, String nickname, String password, LocalDate birthDate) {
+    public Member(String email, String nickname, String password) {
         this.email = email;
         this.nickname = nickname;
         this.password = password;
-        this.birthDate = birthDate;
     }
 }

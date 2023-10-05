@@ -38,7 +38,7 @@ public class InterestService {
     public void createInterest(String lectureId, Member member) {
         Lecture lecture = lectureService.getLectureDetail(lectureId);
         if (interestLectureRepository.findInterestLectureByMemberIdAndLecture_LectureId(member.getId(), lectureId).isPresent())
-            throw new ClassmoaException("좋아요 신청이 완료된 강의입니다.", HttpStatus.BAD_REQUEST);
+            throw new ClassmoaException("좋아요 신청이 완료된 강의입니다.", HttpStatus.FORBIDDEN);
         try {
             interestLectureRepository.save(
                     InterestLecture.builder()
@@ -54,7 +54,7 @@ public class InterestService {
     //TODO:  예외 처리 [규민]
     public void cancelInterest(Long interestId, Member member) {
         InterestLecture interest = interestLectureRepository.findById(interestId)
-                .orElseThrow(() -> new ClassmoaException("좋아요가 취소된 강의입니다.", HttpStatus.BAD_REQUEST));
+                .orElseThrow(() -> new ClassmoaException("좋아요가 취소된 강의입니다.", HttpStatus.FORBIDDEN));
 
         //TODO: 로직이 변결될 수 있음 [규민, 지훈]
         if (interest.getMember().equals(member)) {

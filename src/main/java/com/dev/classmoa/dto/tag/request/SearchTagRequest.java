@@ -1,6 +1,7 @@
 package com.dev.classmoa.dto.tag.request;
 
 import com.dev.classmoa.domain.entity.Tag;
+import jakarta.validation.constraints.Positive;
 import lombok.*;
 
 @Getter
@@ -10,11 +11,7 @@ import lombok.*;
 @AllArgsConstructor
 public class SearchTagRequest {
 
+    @Positive
     private Long id;
 
-    public Tag toEntity() {
-        return Tag.searcher()
-                .id(id)
-                .search();
-    }
 }

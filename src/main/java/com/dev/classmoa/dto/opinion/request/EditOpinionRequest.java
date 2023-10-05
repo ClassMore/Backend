@@ -1,6 +1,9 @@
 package com.dev.classmoa.dto.opinion.request;
 
 import com.dev.classmoa.domain.entity.Opinion;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 @Getter
@@ -10,13 +13,11 @@ import lombok.*;
 @AllArgsConstructor
 public class EditOpinionRequest {
 
+    @Positive
     private Long id;
+
+    @Size(max = 100)
+    @NotNull
     private String content;
 
-    public Opinion toEntity() {
-        return Opinion.editer()
-                .id(id)
-                .content(content)
-                .edit();
-    }
 }

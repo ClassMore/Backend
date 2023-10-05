@@ -1,6 +1,7 @@
 package com.dev.classmoa.domain.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,6 +26,11 @@ public class LectureTag {
     @Setter
     private Tag tag;
 
+    @Builder
+    public LectureTag(Lecture lecture, Tag tag) {
+        this.lecture = lecture;
+        this.tag = tag;
+    }
 
     //연관관계 메서드 작성
 

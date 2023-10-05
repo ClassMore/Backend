@@ -56,11 +56,6 @@ public class Lecture {
         this.imageLink = imageLink;
     }
 
-    @Builder(builderMethodName = "finder", buildMethodName = "find")
-    public Lecture(String lectureId){
-        this.lectureId = lectureId;
-    }
-
     //연관관계 메서드 작성
     // public void setLectureTags(LectureTag lectureTag){
     //     this.getLectureTags().add(lectureTag);

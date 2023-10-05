@@ -43,7 +43,7 @@ public class AlarmService {
     public void createAlarm(String lectureId, Member member) {
         Lecture lecture = lectureService.getLectureDetail(lectureId);
         if (alarmRepository.findAlarmByMemberIdAndLecture_LectureId(member.getId(), lectureId).isPresent())
-            throw new ClassmoaException("알람 신청이 완료된 강의입니다.", HttpStatus.BAD_REQUEST);
+            throw new ClassmoaException("알람 신청이 완료된 강의입니다.", HttpStatus.FORBIDDEN);
         try {
             alarmRepository.save(
                     Alarm.builder()
@@ -60,7 +60,7 @@ public class AlarmService {
     public void cancelAlarm(Long alarmId, Member member) {
         //TODO: 예외 함수 커스터마이징해서 넣기 [규민]
         Alarm alarmLecture = alarmRepository.findById(alarmId)
-                .orElseThrow(() -> new ClassmoaException("알림이 취소된 강의입니다.", HttpStatus.BAD_REQUEST));
+                .orElseThrow(() -> new ClassmoaException("알림이 취소된 강의입니다.", HttpStatus.FORBIDDEN));
 
         //TODO: methodArgumentResolver 에서 처리하는 로직에 따라 달라질 수 있다.[규민]
         if (alarmLecture.getMember().equals(member)) {

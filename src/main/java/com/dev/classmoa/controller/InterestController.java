@@ -2,6 +2,7 @@ package com.dev.classmoa.controller;
 
 import java.util.List;
 
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,7 +45,7 @@ public class InterestController {
 	// 좋아요 삭제
 	// TODO: 엔티티로 Request 를 받고 있는데.... [가영,창준]
 	@DeleteMapping("/interest/{interest_id}")
-	public void cancelInterest(@PathVariable("interest_id") Long interestId, Member member){
+	public void cancelInterest(@PathVariable("interest_id") @Valid Long interestId, Member member){
 		interestService.cancelInterest(interestId, member);
 	}
 }

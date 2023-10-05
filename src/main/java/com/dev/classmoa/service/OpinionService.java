@@ -9,13 +9,11 @@ import com.dev.classmoa.domain.repository.OpinionRepository;
 import com.dev.classmoa.dto.comment.request.CreateCommentRequest;
 import com.dev.classmoa.dto.comment.request.DeleteCommentRequest;
 import com.dev.classmoa.dto.comment.request.EditCommentRequest;
-import com.dev.classmoa.dto.comment.response.CreateCommentResponse;
 import com.dev.classmoa.dto.comment.response.DeleteCommentResponse;
 import com.dev.classmoa.dto.comment.response.EditCommentResponse;
 import com.dev.classmoa.dto.opinion.request.CreateOpinionRequest;
 import com.dev.classmoa.dto.opinion.request.DeleteOpinionRequest;
 import com.dev.classmoa.dto.opinion.request.EditOpinionRequest;
-import com.dev.classmoa.dto.opinion.response.CreateOpinionResponse;
 import com.dev.classmoa.dto.opinion.response.DeleteOpinionResponse;
 import com.dev.classmoa.dto.opinion.response.EditOpinionResponse;
 
@@ -39,7 +37,7 @@ public class OpinionService {
         try {
             return opinionRepository.findAllByLecture_LectureIdAndIsDeleted(lectureId, false);
         } catch (ClassmoaException ex) {
-            throw new ClassmoaException("강의가 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
+            throw new ClassmoaException("강의가 존재하지 않습니다.", HttpStatus.NOT_FOUND);
         }
     }
 
@@ -50,7 +48,6 @@ public class OpinionService {
             opinionRepository.save(
                     Opinion.builder()
                             .content(newOpinion.getContent())
-                            .isModified(false)
                             .member(member)
                             .lecture(lecture)
                             .build()
@@ -64,7 +61,7 @@ public class OpinionService {
     @Transactional
     public EditOpinionResponse editOpinion(EditOpinionRequest opinion, Member member){
         Opinion savedOpinion = opinionRepository.findById(opinion.getId())
-            .orElseThrow(() -> new ClassmoaException("의견이 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
+            .orElseThrow(() -> new ClassmoaException("의견이 존재하지 않습니다.", HttpStatus.NOT_FOUND));
 
         if(savedOpinion.getMember().equals(member)){
             savedOpinion.editOpinion(opinion.getContent());
@@ -77,9 +74,10 @@ public class OpinionService {
     @Transactional
     public DeleteOpinionResponse deleteOpinion(DeleteOpinionRequest opinion, Member member) {
         Opinion savedOpinion = opinionRepository.findById(opinion.getId())
-            .orElseThrow(() -> new ClassmoaException("의견이 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
+            .orElseThrow(() -> new ClassmoaException("의견이 존재하지 않습니다.", HttpStatus.NOT_FOUND));
 
         if(savedOpinion.getMember().equals(member)) {
+            savedOpinion.deleteOpinion(true);
             return new DeleteOpinionResponse(true);
         }
         return new DeleteOpinionResponse(false);
@@ -93,7 +91,6 @@ public class OpinionService {
             commentRepository.save(
                     Comment.builder()
                             .content(newComment.getContent())
-                            .isModified(false)
                             .member(member)
                             .opinion(opinion)
                             .build()
@@ -107,7 +104,7 @@ public class OpinionService {
     @Transactional
     public EditCommentResponse commentEdit(EditCommentRequest newComment, Member member){
         Comment comment = commentRepository.findById(newComment.getId())
-            .orElseThrow(() -> new ClassmoaException("댓글이 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
+            .orElseThrow(() -> new ClassmoaException("댓글이 존재하지 않습니다.", HttpStatus.NOT_FOUND));
 
         if(comment.getMember().equals(member)){
             comment.editComment(newComment.getContent());
@@ -120,9 +117,10 @@ public class OpinionService {
     @Transactional
     public DeleteCommentResponse commentDelete(DeleteCommentRequest comment, Member member) {
         Comment savedComment = commentRepository.findById(comment.getId())
-            .orElseThrow(() -> new ClassmoaException("댓글이 존재하지 않습니다.", HttpStatus.BAD_REQUEST));
+            .orElseThrow(() -> new ClassmoaException("댓글이 존재하지 않습니다.", HttpStatus.NOT_FOUND));
 
         if(savedComment.getMember().equals(member)){
+            savedComment.deleteComment(true);
             return new DeleteCommentResponse(true);
         }
         return new DeleteCommentResponse(false);

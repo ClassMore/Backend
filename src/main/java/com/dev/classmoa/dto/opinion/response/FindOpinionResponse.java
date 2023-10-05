@@ -5,6 +5,9 @@ import java.util.List;
 import com.dev.classmoa.domain.entity.Comment;
 import com.dev.classmoa.domain.entity.Member;
 import com.dev.classmoa.domain.entity.Opinion;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,11 +19,18 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class FindOpinionResponse {
 
+    @Positive
     private Long id;
+
+    @Size(max = 100)
+    @NotNull
     private String content;
+
     private Member member;
     private List<Comment> comments;
-    private Boolean isModified;
+
+    @NotNull
+    private Boolean isModified = false;
 
     public FindOpinionResponse(Opinion opinion) {
         this.id = opinion.getId();

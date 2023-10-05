@@ -1,6 +1,5 @@
 package com.dev.classmoa.exception;
 
-import com.dev.classmoa.exception.type.LectureCode;
 import org.springframework.http.HttpStatus;
 
 public class ClassmoaException extends RuntimeException {
