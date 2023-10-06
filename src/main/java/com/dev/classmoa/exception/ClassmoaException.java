@@ -1,9 +1,11 @@
 package com.dev.classmoa.exception;
 
+import com.dev.classmoa.exception.type.ClassmoaErrorCode;
 import org.springframework.http.HttpStatus;
 
 public class ClassmoaException extends RuntimeException {
     private HttpStatus httpStatus;
+    private ClassmoaErrorCode classmoaErrorCode;
 
     public ClassmoaException(String message){
         super(message);
@@ -14,6 +16,10 @@ public class ClassmoaException extends RuntimeException {
         this.httpStatus = httpStatus;
     }
 
+    public ClassmoaException(ClassmoaErrorCode classmoaErrorCode){
+        this.classmoaErrorCode = classmoaErrorCode;
+    }
+
     public ClassmoaException(String message, Throwable cause) {
         super(message, cause);
 
@@ -21,5 +27,9 @@ public class ClassmoaException extends RuntimeException {
 
     public HttpStatus getHttpStatus(){
         return this.httpStatus;
+    }
+
+    public ClassmoaErrorCode getLectureCode(){
+        return this.classmoaErrorCode;
     }
 }

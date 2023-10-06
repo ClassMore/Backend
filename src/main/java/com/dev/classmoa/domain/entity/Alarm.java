@@ -24,6 +24,7 @@ public class Alarm {
     private Member member;
 
     private int customPrice;
+    private boolean isCanceled = false;
 
     public Alarm(int customPrice) {
         this.customPrice = customPrice;
@@ -35,6 +36,10 @@ public class Alarm {
 
     public void setMember(Member member){
         this.member = member;
+    }
+
+    public void updateIsCanceled(boolean isCanceled){
+        this.isCanceled = isCanceled;
     }
 
     @Builder

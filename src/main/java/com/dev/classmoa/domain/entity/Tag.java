@@ -22,4 +22,13 @@ public class Tag {
     @OneToMany(mappedBy = "tag", cascade = CascadeType.ALL)
     private List<LectureTag> lectureTags = new ArrayList<>();
 
+    @Builder
+    public Tag(String name) {
+        this.name = name;
+    }
+
+    public void setLectureTags(LectureTag lectureTag){
+        this.getLectureTags().add(lectureTag);
+        lectureTag.setTag(this);
+    }
 }

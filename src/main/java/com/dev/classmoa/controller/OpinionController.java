@@ -42,13 +42,13 @@ public class OpinionController {
     }
 
     // 의견 수정
-    @PostMapping("/user/lecture/opinion")
+    @PutMapping("/user/lecture/edit/opinion")
     public ResponseEntity<EditOpinionResponse> editOpinion(@RequestBody @Valid EditOpinionRequest editOpinion, Member member){
         return ResponseEntity.ok(opinionService.editOpinion(editOpinion, member));
     }
 
     // 의견 삭제
-    @DeleteMapping("/user/lecture/opinion")
+    @DeleteMapping("/user/lecture/delete/opinion")
     public ResponseEntity<Void> deleteOpinion(@RequestBody @Valid DeleteOpinionRequest deleteOpinion, Member member){
         opinionService.deleteOpinion(deleteOpinion, member);
         return ResponseEntity.ok().build();
@@ -60,13 +60,13 @@ public class OpinionController {
         opinionService.commentCreate(createComment, opinionId, member);
     }
     // 댓글 수정
-    @PostMapping("/user/opinion/comment")
+    @PutMapping("/user/opinion/edit/comment")
     public ResponseEntity<EditCommentResponse> editComment(@RequestBody @Valid EditCommentRequest editComment, Member member){
         return ResponseEntity.ok(opinionService.commentEdit(editComment, member));
     }
 
     // 댓글 삭제
-    @DeleteMapping("/user/opinion/comment")
+    @DeleteMapping("/user/opinion/delete/comment")
     public ResponseEntity<DeleteCommentResponse> deleteComment(@RequestBody @Valid DeleteCommentRequest deleteComment, Member member){
         return ResponseEntity.ok(opinionService.commentDelete(deleteComment, member));
     }

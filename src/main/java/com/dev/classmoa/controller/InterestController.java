@@ -41,11 +41,4 @@ public class InterestController {
 	public void createInterest(@PathVariable("lecture_id") String lectureId, Member member){
 		interestService.createInterest(lectureId, member);
 	}
-
-	// 좋아요 삭제
-	// TODO: 엔티티로 Request 를 받고 있는데.... [가영,창준]
-	@DeleteMapping("/interest/{interest_id}")
-	public void cancelInterest(@PathVariable("interest_id") @Valid Long interestId, Member member){
-		interestService.cancelInterest(interestId, member);
-	}
 }

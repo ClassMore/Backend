@@ -1,7 +1,6 @@
 package com.dev.classmoa.service;
 
 import com.dev.classmoa.domain.entity.Alarm;
-import com.dev.classmoa.domain.entity.InterestLecture;
 import com.dev.classmoa.domain.entity.Lecture;
 import com.dev.classmoa.domain.entity.Member;
 import com.dev.classmoa.domain.repository.AlarmRepository;
@@ -19,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -115,17 +115,16 @@ class AlarmServiceTest {
     @DisplayName("lecture 정보와 회원 정보를 받아서 해당 강의에 대한 알람을 신청 한다.")
     void createAlarm() {
         // given
-        Long memberId = 1L;
         Member member = memberRepository.findById(1L).get();
-        Lecture lecture = lectureRepository.findByLectureIdAndDate("카클스3", LocalDate.now());
+        Lecture lecture = lectureRepository.findByLectureIdAndDate("카클스3", LocalDate.now()).get();
 
         // when
         alarmService.createAlarm(lecture.getLectureId(), member);
 
         // then
-        List<Alarm> alarms = alarmRepository
-                .findAlarmsByMemberId(memberId);
-        assertThat(alarms.get(0).getMember().getId()).isEqualTo(memberId);
+        Optional<Alarm> alarms = alarmRepository
+                .findAlarmByMemberIdAndLecture_LectureId(member.getId(), lecture.getLectureId());
+        assertThat(alarms.get().getMember().getId()).isEqualTo(member.getId());
     }
 
     @Test
@@ -142,18 +141,20 @@ class AlarmServiceTest {
     }
 
     @Test
-    @DisplayName("alarmId와 회원 정보를 받아서 알람을 취소 한다.")
+    @DisplayName("강의 정보와 회원 정보를 받아서 알람을 취소 한다.")
     void cancelAlarm() {
+
         // given
-        Long alarmId = 2L;
+        Lecture lecture = lectureRepository.findByLectureIdAndDate("카클스1", LocalDate.now()).get();
         Member member = memberRepository.findById(1L).get();
 
         // when
-        alarmService.cancelAlarm(alarmId, member);
+        alarmService.createAlarm(lecture.getLectureId(), member);
 
         // then
-        assertThat(alarmRepository.findById(alarmId).isPresent())
-                .isFalse();
-
+        Optional<Alarm> alarms = alarmRepository
+                .findAlarmByMemberIdAndLecture_LectureId(member.getId(), lecture.getLectureId());
+        assertThat(alarms.get().isCanceled()).isTrue();
     }
+
 }

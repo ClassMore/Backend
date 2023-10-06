@@ -14,15 +14,18 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Transactional
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class InterestServiceTest {
     @Autowired
     InterestService interestService;
@@ -110,17 +113,16 @@ class InterestServiceTest {
     @DisplayName("lecture 정보와 회원 정보를 받아서 강의 좋아요를 등록 한다.")
     void createInterest() {
         //given
-        Long memberId = 1L;
         Member member = memberRepository.findById(1L).get();
-        Lecture lecture = lectureRepository.findByLectureIdAndDate("카클스3", LocalDate.now());
+        Lecture lecture = lectureRepository.findByLectureIdAndDate("카클스3", LocalDate.now()).get();
 
         //when
         interestService.createInterest(lecture.getLectureId(), member);
 
         //then
-        List<InterestLecture> interestLectures = interestLectureRepository
-                .findInterestLecturesByMemberId(memberId);
-        assertThat(interestLectures.get(0).getMember().getId()).isEqualTo(memberId);
+        Optional<InterestLecture> interestLectures = interestLectureRepository
+                .findInterestLectureByMemberIdAndLecture_LectureId(member.getId(), lecture.getLectureId());
+        assertThat(interestLectures.get().getMember().getId()).isEqualTo(member.getId());
     }
 
     @Test
@@ -138,17 +140,18 @@ class InterestServiceTest {
     }
 
     @Test
-    @DisplayName("interestId와 회원 정보를 받아서 좋아요를 취소 한다.")
+    @DisplayName("강의 정보와 회원 정보를 받아서 좋아요를 취소 한다.")
     void cancelInterest() {
         // given
-        Long interestId = 2L;
+        Lecture lecture = lectureRepository.findByLectureIdAndDate("카클스1", LocalDate.now()).get();
         Member member = memberRepository.findById(1L).get();
 
         // when
-        interestService.cancelInterest(interestId, member);
+        interestService.createInterest(lecture.getLectureId(), member);
 
         // then
-        assertThat(interestLectureRepository.findById(interestId).isEmpty())
-                .isTrue();
+        Optional<InterestLecture> interestLectures = interestLectureRepository
+                .findInterestLectureByMemberIdAndLecture_LectureId(member.getId(), lecture.getLectureId());
+        assertThat(interestLectures.get().isCanceled()).isTrue();
     }
 }

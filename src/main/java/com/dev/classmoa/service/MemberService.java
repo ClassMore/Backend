@@ -2,6 +2,8 @@ package com.dev.classmoa.service;
 
 import java.util.Optional;
 
+import com.dev.classmoa.exception.ClassmoaException;
+import com.dev.classmoa.exception.type.ClassmoaErrorCode;
 import org.springframework.stereotype.Service;
 
 import com.dev.classmoa.domain.entity.Member;
@@ -16,8 +18,8 @@ public class MemberService {
 	private final MemberRepository memberRepository;
 	
 	public MyPageResponse getMemberDetail(Member member){
-		Member findedMember = memberRepository.findById(member.getId())
-			.orElseThrow(() -> new IllegalArgumentException("not found"));
+		Member findedMember = memberRepository.findByEmail(member.getEmail())
+			.orElseThrow(() -> new ClassmoaException(ClassmoaErrorCode.NOT_FOUND_MEMBER));
 
 		return new MyPageResponse(findedMember);
 	}

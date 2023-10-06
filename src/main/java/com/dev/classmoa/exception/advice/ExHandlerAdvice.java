@@ -2,6 +2,7 @@ package com.dev.classmoa.exception.advice;
 
 import com.dev.classmoa.exception.ClassmoaException;
 import com.dev.classmoa.exception.dto.ErrorResult;
+import com.dev.classmoa.exception.type.ClassmoaErrorCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -10,12 +11,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ExHandlerAdvice {
     @ExceptionHandler
     public ResponseEntity<ErrorResult> commonHandler(ClassmoaException ex) {
+        ClassmoaErrorCode classmoaErrorCode = ex.getLectureCode();
         ErrorResult result = ErrorResult.builder()
-                .httpStatus(ex.getHttpStatus().name())
-                .message(ex.getMessage())
-                .statusCode(ex.getHttpStatus().value())
+                .httpStatus(classmoaErrorCode.getHttpStatus().name())
+                .message(classmoaErrorCode.getMessage())
+                .statusCode(classmoaErrorCode.getHttpStatus().value())
                 .build();
 
-        return ResponseEntity.ok(result);
+        return new ResponseEntity<>(result, classmoaErrorCode.getHttpStatus());
     }
 }
