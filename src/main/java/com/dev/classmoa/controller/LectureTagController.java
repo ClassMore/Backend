@@ -3,7 +3,6 @@ package com.dev.classmoa.controller;
 import com.dev.classmoa.dto.Lecture.response.FindLectureListResponse;
 import com.dev.classmoa.service.LectureTagService;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
