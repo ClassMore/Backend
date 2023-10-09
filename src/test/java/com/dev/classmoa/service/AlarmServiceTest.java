@@ -6,6 +6,7 @@ import com.dev.classmoa.domain.entity.Member;
 import com.dev.classmoa.domain.repository.AlarmRepository;
 import com.dev.classmoa.domain.repository.LectureRepository;
 import com.dev.classmoa.domain.repository.MemberRepository;
+import com.dev.classmoa.dto.Member.LoggedInMember;
 import com.dev.classmoa.dto.alarm.response.FindAlarmLecturesResponse;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -88,7 +89,7 @@ class AlarmServiceTest {
 
 
         Member member = Member.signup()
-                .email("123@gmail.com")
+                .memberName("123@gmail.com")
                 .password("123")
                 .nickname("동그리")
                 .signupbuild();
@@ -115,7 +116,7 @@ class AlarmServiceTest {
     @DisplayName("lecture 정보와 회원 정보를 받아서 해당 강의에 대한 알람을 신청 한다.")
     void createAlarm() {
         // given
-        Member member = memberRepository.findById(1L).get();
+        LoggedInMember member = new LoggedInMember(1L, "123@gmail.com");
         Lecture lecture = lectureRepository.findByLectureIdAndDate("카클스3", LocalDate.now()).get();
 
         // when
@@ -123,8 +124,8 @@ class AlarmServiceTest {
 
         // then
         Optional<Alarm> alarms = alarmRepository
-                .findAlarmByMemberIdAndLecture_LectureId(member.getId(), lecture.getLectureId());
-        assertThat(alarms.get().getMember().getId()).isEqualTo(member.getId());
+                .findAlarmByMemberIdAndLecture_LectureId(member.getMemberId(), lecture.getLectureId());
+        assertThat(alarms.get().getMember().getId()).isEqualTo(member.getMemberId());
     }
 
     @Test
@@ -146,14 +147,14 @@ class AlarmServiceTest {
 
         // given
         Lecture lecture = lectureRepository.findByLectureIdAndDate("카클스1", LocalDate.now()).get();
-        Member member = memberRepository.findById(1L).get();
+        LoggedInMember member = new LoggedInMember(1L, "123@gmail.com");
 
         // when
         alarmService.createAlarm(lecture.getLectureId(), member);
 
         // then
         Optional<Alarm> alarms = alarmRepository
-                .findAlarmByMemberIdAndLecture_LectureId(member.getId(), lecture.getLectureId());
+                .findAlarmByMemberIdAndLecture_LectureId(member.getMemberId(), lecture.getLectureId());
         assertThat(alarms.get().isCanceled()).isTrue();
     }
 

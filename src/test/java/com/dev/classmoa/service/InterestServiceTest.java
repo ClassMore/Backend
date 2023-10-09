@@ -1,12 +1,12 @@
 package com.dev.classmoa.service;
 
-import com.dev.classmoa.domain.entity.Alarm;
 import com.dev.classmoa.domain.entity.InterestLecture;
 import com.dev.classmoa.domain.entity.Lecture;
 import com.dev.classmoa.domain.entity.Member;
 import com.dev.classmoa.domain.repository.InterestLectureRepository;
 import com.dev.classmoa.domain.repository.LectureRepository;
 import com.dev.classmoa.domain.repository.MemberRepository;
+import com.dev.classmoa.dto.Member.LoggedInMember;
 import com.dev.classmoa.dto.interest.response.FindInterestLecturesResponse;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -88,7 +88,7 @@ class InterestServiceTest {
 
 
         Member member = Member.signup()
-                .email("123@gmail.com")
+                .memberName("123@gmail.com")
                 .password("123")
                 .nickname("동그리")
                 .signupbuild();
@@ -113,27 +113,28 @@ class InterestServiceTest {
     @DisplayName("lecture 정보와 회원 정보를 받아서 강의 좋아요를 등록 한다.")
     void createInterest() {
         //given
-        Member member = memberRepository.findById(1L).get();
+        LoggedInMember member = new LoggedInMember(1L, "admin");
         Lecture lecture = lectureRepository.findByLectureIdAndDate("카클스3", LocalDate.now()).get();
 
         //when
-        interestService.createInterest(lecture.getLectureId(), member);
+        interestService.createInterest("카클스3", member);
 
         //then
         Optional<InterestLecture> interestLectures = interestLectureRepository
-                .findInterestLectureByMemberIdAndLecture_LectureId(member.getId(), lecture.getLectureId());
-        assertThat(interestLectures.get().getMember().getId()).isEqualTo(member.getId());
+                .findInterestLectureByMemberIdAndLecture_LectureId(member.getMemberId(), lecture.getLectureId());
+        assertThat(interestLectures.get().getMember().getId()).isEqualTo(member.getMemberName());
     }
 
     @Test
     @DisplayName("회원 정보를 받아서 좋아요 내역을 조회 한다.")
     void getInterestList() {
         // given
-        Long memberId = 1L;
+
+        LoggedInMember member = new LoggedInMember(1L, "admin");
 
         // when
         List<FindInterestLecturesResponse> interestList = interestService
-                .getInterestListByMember(memberId);
+                .getInterestListByMember(member);
 
         // then
         assertThat(interestList.size()).isEqualTo(2);
@@ -144,14 +145,14 @@ class InterestServiceTest {
     void cancelInterest() {
         // given
         Lecture lecture = lectureRepository.findByLectureIdAndDate("카클스1", LocalDate.now()).get();
-        Member member = memberRepository.findById(1L).get();
+        LoggedInMember member = new LoggedInMember(1L, "admin");
 
         // when
         interestService.createInterest(lecture.getLectureId(), member);
 
         // then
         Optional<InterestLecture> interestLectures = interestLectureRepository
-                .findInterestLectureByMemberIdAndLecture_LectureId(member.getId(), lecture.getLectureId());
+                .findInterestLectureByMemberIdAndLecture_LectureId(member.getMemberId(), lecture.getLectureId());
         assertThat(interestLectures.get().isCanceled()).isTrue();
     }
 }

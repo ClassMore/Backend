@@ -3,6 +3,7 @@ package com.dev.classmoa.service;
 import com.dev.classmoa.domain.entity.Lecture;
 import com.dev.classmoa.domain.entity.Member;
 import com.dev.classmoa.domain.repository.MemberRepository;
+import com.dev.classmoa.dto.Member.LoggedInMember;
 import com.dev.classmoa.exception.ClassmoaException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,10 +43,7 @@ class MemberServiceTest {
     void getNoMemberDetail() {
 
         // given
-        Member member = Member.login()
-                .email("aaa@aaa.com")
-                .password("aaa")
-                .loginbuild();
+        LoggedInMember member = new LoggedInMember(1L, "aaa");
 
         // expected
         assertThatThrownBy(() -> memberService.getMemberDetail(member))
