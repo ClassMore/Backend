@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ExHandlerAdvice {
     @ExceptionHandler
     public ResponseEntity<ErrorResult> commonHandler(ClassmoaException ex) {
-        ClassmoaErrorCode classmoaErrorCode = ex.getLectureCode();
+        ClassmoaErrorCode classmoaErrorCode = ex.getClassmoaErrorCode();
         ErrorResult result = ErrorResult.builder()
                 .httpStatus(classmoaErrorCode.getHttpStatus().name())
                 .message(classmoaErrorCode.getMessage())
