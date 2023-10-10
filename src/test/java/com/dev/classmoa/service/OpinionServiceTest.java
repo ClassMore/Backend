@@ -96,7 +96,7 @@ class OpinionServiceTest {
 
 
 		Member member = Member.signup()
-				.email("123@gmail.com")
+				.memberName("123@gmail.com")
 				.password("123")
 				.nickname("동그리")
 				.signupbuild();

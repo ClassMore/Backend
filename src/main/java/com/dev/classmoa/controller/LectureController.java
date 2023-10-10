@@ -30,7 +30,7 @@ public class LectureController {
     public ResponseEntity<FindLectureDetailResponse> getLecture(@PathVariable("lecture_id") String lectureId) {
         Lecture lecture = lectureService.getLectureDetail(lectureId);
         FindLectureDetailResponse response = new FindLectureDetailResponse(lecture);
-        response.setViewCount(viewCountService.countViewCountUp(lecture));
+        viewCountService.viewCountUp(lecture);
         return ResponseEntity.ok(response);
     }
 }

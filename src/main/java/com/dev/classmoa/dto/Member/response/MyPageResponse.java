@@ -25,7 +25,7 @@ public class MyPageResponse {
     private String nickname;
 
     public MyPageResponse(Member member) {
-        this.email = member.getEmail();
+        this.email = member.getMemberName();
         this.nickname = member.getNickname();
     }
 }

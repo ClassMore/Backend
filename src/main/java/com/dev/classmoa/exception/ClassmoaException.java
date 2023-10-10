@@ -29,7 +29,7 @@ public class ClassmoaException extends RuntimeException {
         return this.httpStatus;
     }
 
-    public ClassmoaErrorCode getLectureCode(){
+    public ClassmoaErrorCode getClassmoaCode(){
         return this.classmoaErrorCode;
     }
 }
