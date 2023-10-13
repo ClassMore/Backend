@@ -16,6 +16,6 @@ public class ChangeSalePrice {
     @JoinColumn(name = "lecture_id", referencedColumnName = "lecture_id")
     private Lecture lecture;
 
-    private int priorSalePrice;
     private int newSalePrice;
+
 }

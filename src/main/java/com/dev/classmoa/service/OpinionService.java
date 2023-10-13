@@ -1,9 +1,18 @@
 package com.dev.classmoa.service;
 
+import com.dev.classmoa.domain.entity.Comment;
 import com.dev.classmoa.domain.entity.Lecture;
 import com.dev.classmoa.domain.entity.Member;
 import com.dev.classmoa.domain.entity.Opinion;
+import com.dev.classmoa.domain.repository.CommentRepository;
 import com.dev.classmoa.domain.repository.OpinionRepository;
+import com.dev.classmoa.dto.comment.response.CreateCommentResponse;
+import com.dev.classmoa.dto.comment.response.DeleteCommentResponse;
+import com.dev.classmoa.dto.comment.response.EditCommentResponse;
+import com.dev.classmoa.dto.opinion.request.DeleteOpinionRequest;
+import com.dev.classmoa.dto.opinion.response.CreateOpinionResponse;
+import com.dev.classmoa.dto.opinion.response.DeleteOpinionResponse;
+import com.dev.classmoa.dto.opinion.response.EditOpinionResponse;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,41 +22,86 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class OpinionService {
+
     private final OpinionRepository opinionRepository;
     private final LectureService lectureService;
+    private final CommentRepository commentRepository;
 
     public List<Opinion> getOpinions(String lectureId) {
         Lecture lecture = lectureService.getLectureDetail(lectureId);
         return lecture.getOpinions();
     }
 
-    public Long create(Opinion newOpinion, String lectureId, Member member){
+    public CreateOpinionResponse create(Opinion newOpinion, String lectureId, Member member){
         Lecture lecture = lectureService.getLectureDetail(lectureId);
-        return opinionRepository.save(
+        Opinion opinion = opinionRepository.save(
                 Opinion.builder()
                         .content(newOpinion.getContent())
                         .isModified(false)
                         .member(member)
                         .lecture(lecture)
                         .build()
-        ).getId();
+        );
+        return new CreateOpinionResponse(opinion.getId());
     }
 
-    // Member 객체가 굳이 필요하지 않을거 같음.
-    public Boolean edit(Opinion opinion){
+    // TODO: 업데이트라면 save 할 필요 없을 것 같은데, Setter 역할을 하는 메소드를 하나 만들자. [창준]
+    public EditOpinionResponse edit(Opinion opinion, Member member){
         Opinion savedOpinion = opinionRepository.findById(opinion.getId())
             .orElseThrow(() -> new IllegalArgumentException("not found"));
 
-        return opinionRepository.save(
-            savedOpinion.builder()
-                    .isModified(true)
-                    .content(opinion.getContent())
-                    .build()
-        ).getIsModified();
+        if(savedOpinion.getMember().equals(member)){
+            savedOpinion.editOpinion(savedOpinion.getContent());
+            return new EditOpinionResponse(true);
+        }
+        return new EditOpinionResponse(false);
     }
 
-    // Member 객체가 굳이 필요하지 않을거 같음.
-    public void delete(Opinion opinion){
-        opinionRepository.deleteById(opinion.getId());
+    // TODO: 예외 처리 함수
+    public DeleteOpinionResponse delete(Opinion opinion, Member member) {
+        Opinion savedOpinion = opinionRepository.findById(opinion.getId())
+            .orElseThrow(() -> new IllegalArgumentException("not found"));
+        if(savedOpinion.getMember().equals(member)) {
+            savedOpinion.deleteOpinion(true);
+            return new DeleteOpinionResponse(true);
+        }
+        return new DeleteOpinionResponse(false);
+    }
+
+    // 댓글 생성
+    //TODO: ???? [가영]
+    public CreateCommentResponse commentCreate(Comment newComment, Long opinionId, Member member){
+        Opinion opinion = opinionRepository.getById(opinionId);
+        Comment comment = commentRepository.save(
+            Comment.builder()
+                .content(newComment.getContent())
+                .isModified(false)
+                .member(member)
+                .opinion(opinion)
+                .build()
+        );
+        return new CreateCommentResponse(comment.getId());
+    }
+
+
+    public EditCommentResponse commentEdit(Comment newComment, Member member){
+        Comment comment = commentRepository.findById(newComment.getId())
+            .orElseThrow(() -> new IllegalArgumentException("not found"));
+        if(comment.getMember().equals(member)){
+            comment.editComment(newComment.getContent());
+            return new EditCommentResponse(true);
+        }
+        return new EditCommentResponse(false);
+    }
+
+    //TODO: 예외 처리 함수 [규민]
+    public DeleteCommentResponse commentDelete(Comment comment, Member member) {
+        Comment savedComment = commentRepository.findById(comment.getId())
+            .orElseThrow(() -> new IllegalArgumentException("not found"));
+        if(savedComment.getMember().equals(member)){
+            comment.deleteComment(true);
+            return new DeleteCommentResponse(true);
+        }
+        return new DeleteCommentResponse(false);
     }
 }
