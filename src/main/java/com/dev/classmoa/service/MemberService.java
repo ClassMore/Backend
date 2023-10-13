@@ -18,6 +18,7 @@ import com.dev.classmoa.utils.JwtUtil;
 import lombok.RequiredArgsConstructor;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -39,7 +40,7 @@ public class MemberService {
 	@Transactional(readOnly = true)
 	public Member findMemberById(Long id){
 		return memberRepository.findById(id)
-				.orElseThrow(() -> new ClassmoaException(ClassmoaErrorCode.NOT_FOUND_MEMBER));
+			.orElseThrow(() -> new ClassmoaException(ClassmoaErrorCode.NOT_FOUND_MEMBER));
 	}
 
 	//TODO: platform 로직 수정
@@ -59,8 +60,15 @@ public class MemberService {
 	}
 
 	@Transactional
-	public void join(Member joinMember) {
+	public String checkRegistration(KakaoUserInfoResponse userInfo) throws IOException {
+		Member oauthMember = memberRepository.findByMemberName(userInfo.getKakao_account().getEmail())
+			.orElseGet(() -> createKakaoUser(userInfo));
 
+		return JwtUtil.createToken(oauthMember, secretKey, expireTimeMs);
+	}
+
+	@Transactional
+	public void join(Member joinMember) {
 		// memberName 중복 check
 		memberRepository.findByMemberName(joinMember.getMemberName())
 			.ifPresent(member -> {
@@ -68,6 +76,7 @@ public class MemberService {
 			});
 
 		SocialLoginPlatform platform = platformService.findSocialPlatform("classmoa");
+
 		// 저장
 		//TODO: 회원가입 필드 추가
 		Member member = Member.signup()
@@ -76,7 +85,6 @@ public class MemberService {
 			.platform(platform)
 			.signupbuild();
 		memberRepository.save(member);
-
 	}
 
 	@Transactional
@@ -90,8 +98,8 @@ public class MemberService {
 			throw new ClassmoaException(ClassmoaErrorCode.NOT_FOUND_MEMBER);
 		}
 
-		return JwtUtil.createToken(selectedMember, secretKey, expireTimeMs);
 		// 앞에서 Exception 안났으면 토큰 발행
+		return JwtUtil.createToken(selectedMember, secretKey, expireTimeMs);
 	}
 
 	public MyPageResponse getMemberDetail(LoggedInMember member) {
@@ -99,5 +107,4 @@ public class MemberService {
 			.orElseThrow(() -> new ClassmoaException(ClassmoaErrorCode.NOT_FOUND_MEMBER));
 		return new MyPageResponse(findedMember);
 	}
-
 }

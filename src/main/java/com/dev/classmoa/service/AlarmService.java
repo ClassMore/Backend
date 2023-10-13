@@ -3,19 +3,18 @@ package com.dev.classmoa.service;
 import com.dev.classmoa.domain.entity.Alarm;
 import com.dev.classmoa.domain.entity.Lecture;
 import com.dev.classmoa.domain.entity.Member;
-import com.dev.classmoa.domain.entity.Opinion;
 import com.dev.classmoa.domain.repository.AlarmRepository;
 import com.dev.classmoa.dto.Member.LoggedInMember;
 import com.dev.classmoa.dto.alarm.response.FindAlarmLecturesResponse;
 import com.dev.classmoa.dto.alarm.response.FindAlarmResponse;
-import com.dev.classmoa.exception.ClassmoaException;
+
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
+
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +25,7 @@ public class AlarmService {
 
     // 조회
     public List<FindAlarmLecturesResponse> getAlarmListByMember(Long memberId) {
-        List<Alarm> alarms = alarmRepository.findAlarmsByMemberId(memberId);
+        List<Alarm> alarms = alarmRepository.findAlarmsByMemberIdAndLectureDateAndAndCanceledIsFalse(memberId, LocalDate.now());
 
         return alarms.stream()
                 .map(Alarm::getLecture)
@@ -37,7 +36,7 @@ public class AlarmService {
     // 단일 조회
     public FindAlarmResponse getIsAlarmed(String lectureId, LoggedInMember loggedInMember) {
         Alarm alarm = alarmRepository
-                .findAlarmByMemberIdAndLecture_LectureId(loggedInMember.getMemberId(), lectureId)
+                .findAlarmByMemberIdAndLecture_LectureIdAndCanceledIsFalse(loggedInMember.getMemberId(), lectureId)
                 .orElseGet(Alarm::new);
 
         boolean isAlarmed = !alarm.isCanceled() && alarm.getId() != null;
@@ -52,7 +51,7 @@ public class AlarmService {
         Lecture lecture = lectureService.getLectureDetail(lectureId);
         Member member = memberService.findMemberById(loggedInMember.getMemberId());
 
-        Alarm alarm = alarmRepository.findAlarmByMemberIdAndLecture_LectureId(member.getId(), lectureId)
+        Alarm alarm = alarmRepository.findAlarmByMemberIdAndLecture_LectureIdAndCanceledIsFalse(member.getId(), lectureId)
                 .orElseGet(() -> alarmRepository.save(Alarm.builder()
                         .member(member)
                         .lecture(lecture)

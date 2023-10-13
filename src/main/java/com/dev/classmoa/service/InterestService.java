@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -22,7 +23,8 @@ public class InterestService {
 
     public List<FindInterestLecturesResponse> getInterestListByMember(LoggedInMember member) {
         List<InterestLecture> interests = interestLectureRepository
-                .findInterestLecturesByMemberMemberName(member.getMemberName());
+                .findInterestLecturesByMemberMemberNameAndLectureDateAndCanceledIsFalse(member.getMemberName(),
+                    LocalDate.now());
 
         return interests.stream()
                 .map(InterestLecture::getLecture)

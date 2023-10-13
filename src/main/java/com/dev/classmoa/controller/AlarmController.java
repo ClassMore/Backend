@@ -21,9 +21,9 @@ public class AlarmController {
     private final AlarmService alarmService;
 
     // 알람내역 조회
-    @GetMapping("/alarm")
-    public ResponseEntity<List<FindAlarmLecturesResponse>> getAlarms(Member member) {
-        return ResponseEntity.ok(alarmService.getAlarmListByMember(member.getId()));
+    @GetMapping("/user/alarm")
+    public ResponseEntity<List<FindAlarmLecturesResponse>> getAlarms(@LoginMember LoggedInMember loggedInMember) {
+        return ResponseEntity.ok(alarmService.getAlarmListByMember(loggedInMember.getMemberId()));
     }
 
     // 알람내역 한개 조회

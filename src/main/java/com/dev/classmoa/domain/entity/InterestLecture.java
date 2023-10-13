@@ -24,7 +24,8 @@ public class InterestLecture {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
-    private boolean isCanceled = false;
+
+    private boolean canceled = false;
 
     @Builder
     public InterestLecture(Member member, Lecture lecture) {
@@ -41,7 +42,7 @@ public class InterestLecture {
     }
 
     public void updateIsCanceled(boolean isCanceled){
-        this.isCanceled = isCanceled;
+        this.canceled = isCanceled;
     }
 
 }

@@ -12,3 +12,19 @@ spring:
       hibernate:
         jdbc:
           batch_size: 100
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${gmail} #classmoa.corp@gmail.com
+    password: ${gmailPassword} #vkxsuwlaoisqicrp
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 3000
+          timeout: 3000
+          writetimeout: 3000
+      auth-code-expiration-millis: 1800000  # 30 * 60 * 1000 == 30분

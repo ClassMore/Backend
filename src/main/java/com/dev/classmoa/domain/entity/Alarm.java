@@ -24,7 +24,7 @@ public class Alarm {
     private Member member;
 
     private int customPrice;
-    private boolean isCanceled = false;
+    private boolean canceled = false;
 
     public Alarm(int customPrice) {
         this.customPrice = customPrice;
@@ -39,7 +39,7 @@ public class Alarm {
     }
 
     public void updateIsCanceled(boolean isCanceled){
-        this.isCanceled = isCanceled;
+        this.canceled = isCanceled;
     }
 
     @Builder
