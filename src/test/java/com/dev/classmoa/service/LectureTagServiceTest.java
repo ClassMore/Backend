@@ -121,6 +121,6 @@ class LectureTagServiceTest {
         List<FindLectureListResponse> lectures = lectureTagService.getLectureListByTag(tagId);
 
         // then
-        assertThat(lectures.size()).isEqualTo(2);
+        assertThat(lectures.get(0).getId()).isEqualTo(1);
     }
 }

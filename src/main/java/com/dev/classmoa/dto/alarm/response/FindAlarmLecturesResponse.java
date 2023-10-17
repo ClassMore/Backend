@@ -15,20 +15,10 @@ import jakarta.validation.constraints.Size;
 @AllArgsConstructor
 public class FindAlarmLecturesResponse {
 
-    @Positive
     private Long id;
-
-    @Size(max = 255)
-    @NotNull
     private String lectureId;
-
-    @NotNull
     private String imageLink;
-
-    @NotNull
     private String title;
-
-    @NotNull
     private String instructor;
 
     public FindAlarmLecturesResponse(Lecture lecture) {
