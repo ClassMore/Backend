@@ -3,6 +3,9 @@ package com.dev.classmoa.domain.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDateTime;
 
 import static jakarta.persistence.FetchType.LAZY;
 
@@ -21,5 +24,8 @@ public class ChangeSalePrice {
     private Lecture lecture;
 
     private int newSalePrice;
+
+    @CreationTimestamp
+    private LocalDateTime date;
 
 }

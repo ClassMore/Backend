@@ -1,6 +1,9 @@
 package com.dev.classmoa.dto.Lecture.response;
 
 import com.dev.classmoa.domain.entity.Lecture;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

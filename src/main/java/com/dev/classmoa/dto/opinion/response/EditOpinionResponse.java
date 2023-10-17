@@ -1,6 +1,7 @@
 package com.dev.classmoa.dto.opinion.response;
 
 import com.dev.classmoa.domain.entity.Opinion;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Getter
@@ -9,5 +10,5 @@ import lombok.*;
 @AllArgsConstructor
 public class EditOpinionResponse {
 
-    private Boolean isModified;
+    private Boolean isModified = false;
 }

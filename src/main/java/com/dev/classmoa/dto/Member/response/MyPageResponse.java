@@ -4,6 +4,9 @@ import java.time.LocalDate;
 
 import com.dev.classmoa.domain.entity.Member;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,11 +19,9 @@ public class MyPageResponse {
 
     private String email;
     private String nickname;
-    private LocalDate birthDate;
 
     public MyPageResponse(Member member) {
-        this.email = member.getEmail();
+        this.email = member.getMemberName();
         this.nickname = member.getNickname();
-        this.birthDate = member.getBirthDate();
     }
 }

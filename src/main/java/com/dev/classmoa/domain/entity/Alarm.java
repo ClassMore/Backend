@@ -24,6 +24,7 @@ public class Alarm {
     private Member member;
 
     private int customPrice;
+    private boolean canceled = false;
 
     public Alarm(int customPrice) {
         this.customPrice = customPrice;
@@ -37,12 +38,8 @@ public class Alarm {
         this.member = member;
     }
 
-    @Builder(builderMethodName = "canceler", buildMethodName = "cancel")
-    public Alarm(Long id) { this.id = id; }
-
-    @Builder(builderMethodName = "finder", buildMethodName = "find")
-    public Alarm(Lecture lecture){
-        this.lecture = lecture;
+    public void updateIsCanceled(boolean isCanceled){
+        this.canceled = isCanceled;
     }
 
     @Builder

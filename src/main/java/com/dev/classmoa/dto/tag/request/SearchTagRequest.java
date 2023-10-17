@@ -1,6 +1,7 @@
 package com.dev.classmoa.dto.tag.request;
 
 import com.dev.classmoa.domain.entity.Tag;
+import jakarta.validation.constraints.Positive;
 import lombok.*;
 
 @Getter
@@ -10,11 +11,7 @@ import lombok.*;
 @AllArgsConstructor
 public class SearchTagRequest {
 
+    @Positive(message = "유효 하지 않은 값 입니다.")
     private Long id;
 
-    public Tag toEntity() {
-        return Tag.searcher()
-                .id(id)
-                .search();
-    }
 }

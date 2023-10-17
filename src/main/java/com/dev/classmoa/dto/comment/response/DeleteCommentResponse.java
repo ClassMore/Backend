@@ -1,5 +1,6 @@
 package com.dev.classmoa.dto.comment.response;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,5 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DeleteCommentResponse {
-	Boolean isDeleted;
+
+	private Boolean isDeleted = false;
 }

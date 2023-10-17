@@ -1,5 +1,6 @@
 package com.dev.classmoa.domain.repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,6 +10,6 @@ import com.dev.classmoa.domain.entity.LectureTag;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AlarmRepository extends JpaRepository<Alarm, Long> {
-	List<Alarm> findAlarmsByMemberId(Long memberId);
-	Optional<Alarm> findAlarmByMemberIdAndLecture_LectureId(Long memberId, String lectureId);
+	List<Alarm> findAlarmsByMemberIdAndLectureDateAndAndCanceledIsFalse(Long memberId, LocalDate now);
+	Optional<Alarm> findAlarmByMemberIdAndLecture_LectureIdAndCanceledIsFalse(Long memberId, String lectureId);
 }

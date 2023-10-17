@@ -2,8 +2,6 @@ package com.dev.classmoa.domain.entity;
 
 import static jakarta.persistence.FetchType.*;
 
-import java.time.LocalDate;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -20,31 +18,37 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class Member {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "member_id")
+	private Long id;
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "member_id")
-    private Long id;
+	@OneToOne(fetch = LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "platform_id")
+	private SocialLoginPlatform socialLoginPlatform;
 
-    @OneToOne(fetch = LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "platform_id")
-    private SocialLoginPlatform socialLoginPlatform;
+	@Column(name = "email")
+	private String memberName;
+	private String nickname;
+	private String password;
 
-    private String email;
-    private String nickname;
-    private String password;
-    private LocalDate birthDate;
+	@Builder
+	public Member(Long id, String memberName) {
+		this.id = id;
+		this.memberName = memberName;
+	}
 
-    @Builder(builderMethodName = "login", buildMethodName = "loginbuild")
-    public Member(String email, String password) {
-        this.email = email;
-        this.password = password;
-    }
+	@Builder(builderMethodName = "login", buildMethodName = "loginbuild")
+	public Member(String memberName, String password) {
+		this.memberName = memberName;
+		this.password = password;
+	}
 
-    @Builder(builderMethodName = "signup", buildMethodName = "signupbuild")
-    public Member(String email, String nickname, String password, LocalDate birthDate) {
-        this.email = email;
-        this.nickname = nickname;
-        this.password = password;
-        this.birthDate = birthDate;
-    }
+	@Builder(builderMethodName = "signup", buildMethodName = "signupbuild")
+	public Member(String memberName, String nickname, String password, SocialLoginPlatform platform) {
+		this.memberName = memberName;
+		this.nickname = nickname;
+		this.password = password;
+		this.socialLoginPlatform = platform;
+	}
 }

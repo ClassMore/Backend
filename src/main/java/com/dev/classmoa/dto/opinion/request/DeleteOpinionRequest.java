@@ -1,6 +1,7 @@
 package com.dev.classmoa.dto.opinion.request;
 
 import com.dev.classmoa.domain.entity.Opinion;
+import jakarta.validation.constraints.Positive;
 import lombok.*;
 
 @Getter
@@ -10,11 +11,7 @@ import lombok.*;
 @AllArgsConstructor
 public class DeleteOpinionRequest {
 
+    @Positive(message = "유효 하지 않은 값 입니다.")
     private Long id;
 
-    public Opinion toEntity() {
-        return Opinion.finder()
-                .id(id)
-                .find();
-    }
 }

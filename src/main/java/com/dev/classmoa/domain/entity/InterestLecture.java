@@ -25,6 +25,8 @@ public class InterestLecture {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    private boolean canceled = false;
+
     @Builder
     public InterestLecture(Member member, Lecture lecture) {
         this.member = member;
@@ -37,6 +39,10 @@ public class InterestLecture {
 
     public void setMember(Member member) {
     	this.member = member;
+    }
+
+    public void updateIsCanceled(boolean isCanceled){
+        this.canceled = isCanceled;
     }
 
 }
