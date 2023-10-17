@@ -25,15 +25,7 @@ public class InterestLecture {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @Builder(builderMethodName = "canceler", buildMethodName = "cancel")
-    public InterestLecture(Long id) {
-        this.id = id;
-    }
-
-    @Builder(builderMethodName = "finder", buildMethodName = "find")
-    public InterestLecture(Lecture lecture){
-        this.lecture = lecture;
-    }
+    private boolean canceled = false;
 
     @Builder
     public InterestLecture(Member member, Lecture lecture) {
@@ -47,6 +39,10 @@ public class InterestLecture {
 
     public void setMember(Member member) {
     	this.member = member;
+    }
+
+    public void updateIsCanceled(boolean isCanceled){
+        this.canceled = isCanceled;
     }
 
 }

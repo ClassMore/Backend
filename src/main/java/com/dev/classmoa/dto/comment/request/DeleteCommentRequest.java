@@ -1,6 +1,7 @@
 package com.dev.classmoa.dto.comment.request;
 
 import com.dev.classmoa.domain.entity.Comment;
+import jakarta.validation.constraints.Positive;
 import lombok.*;
 
 @Getter
@@ -10,11 +11,7 @@ import lombok.*;
 @AllArgsConstructor
 public class DeleteCommentRequest {
 
+    @Positive
     private Long id;
 
-    public Comment toEntity() {
-        return Comment.deleter()
-                .id(id)
-                .delete();
-    }
 }

@@ -1,9 +1,18 @@
 package com.dev.classmoa.dto.Member.request;
 
-import com.dev.classmoa.domain.entity.Member;
-import lombok.*;
+import java.time.LocalDate;
 
-import java.util.Date;
+import com.dev.classmoa.domain.entity.Member;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.PastOrPresent;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -12,17 +21,15 @@ import java.util.Date;
 @AllArgsConstructor
 public class SignUpMemberRequest {
 
+    @Email
+    @NotNull
     private String email;
-    private String nickname;
-    private String password;
-    private Date birthDate;
 
-    public Member toEntity() {
-        return Member.signup()
-                .email(email)
-                .nickname(nickname)
-                .password(password)
-                .birthDate(birthDate)
-                .signupbuild();
-    }
+    @NotNull
+    private String nickname;
+
+    @Size(min = 2, max = 15)
+    @NotNull
+    private String password;
+
 }

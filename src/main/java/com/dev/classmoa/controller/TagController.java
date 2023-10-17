@@ -15,7 +15,7 @@ import java.util.List;
 public class TagController {
     private final TagService tagService;
 
-    @GetMapping("/")
+    @GetMapping("/tag")
     public ResponseEntity<List<FindTagResponse>> getTags(Pageable pageable) {
         List<FindTagResponse> tags = tagService.getTagList(pageable)
                 .stream().map(FindTagResponse::new).toList();

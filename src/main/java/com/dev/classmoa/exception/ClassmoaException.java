@@ -1,13 +1,35 @@
 package com.dev.classmoa.exception;
 
-public class ClassmoaException extends RuntimeException{
-    private LectureCode classmoaCode;
-    public ClassmoaException(String message, Throwable cause){
+import com.dev.classmoa.exception.type.ClassmoaErrorCode;
+import org.springframework.http.HttpStatus;
+
+public class ClassmoaException extends RuntimeException {
+    private HttpStatus httpStatus;
+    private ClassmoaErrorCode classmoaErrorCode;
+
+    public ClassmoaException(String message){
+        super(message);
+    }
+
+    public ClassmoaException(String message, HttpStatus httpStatus){
+        super(message);
+        this.httpStatus = httpStatus;
+    }
+
+    public ClassmoaException(ClassmoaErrorCode classmoaErrorCode){
+        this.classmoaErrorCode = classmoaErrorCode;
+    }
+
+    public ClassmoaException(String message, Throwable cause) {
         super(message, cause);
+
     }
 
-    public ClassmoaException(LectureCode classmoaCode){
-        this.classmoaCode = classmoaCode;
+    public HttpStatus getHttpStatus(){
+        return this.httpStatus;
     }
 
+    public ClassmoaErrorCode getClassmoaCode(){
+        return this.classmoaErrorCode;
+    }
 }

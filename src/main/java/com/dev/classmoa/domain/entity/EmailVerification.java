@@ -1,6 +1,7 @@
 package com.dev.classmoa.domain.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -19,6 +20,7 @@ public class EmailVerification {
     private LocalDateTime sendTime;
     private LocalDateTime expiredTime;
 
+    @Builder
     public EmailVerification(String email, String verificationCode, Boolean verificationCheck, LocalDateTime sendTime, LocalDateTime expiredTime) {
         this.email = email;
         this.verificationCode = verificationCode;

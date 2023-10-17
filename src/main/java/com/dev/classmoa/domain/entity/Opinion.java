@@ -1,5 +1,6 @@
 package com.dev.classmoa.domain.entity;
 
+import com.dev.classmoa.dto.opinion.request.DeleteOpinionRequest;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -34,47 +35,23 @@ public class Opinion {
 
     private String content;
     private LocalDateTime writeDate;
-    private Boolean isModified;
-    private Boolean isDeleted;
-
-
-    @Builder(builderMethodName = "creater", buildMethodName = "create")
-    public Opinion(String content) {
-        this.content = content;
-    }
-
-    @Builder(builderMethodName = "finder", buildMethodName = "find")
-    public Opinion(Long id) { this.id = id; }
-
-    @Builder(builderMethodName = "editer", buildMethodName = "edit")
-    public Opinion(Long id, String content) {
-        this.id = id;
-        this.content = content;
-    }
+    private Boolean isModified = false;
+    private Boolean isDeleted = false;
 
     @Builder
-    public Opinion(String content, boolean isModified, Member member, Lecture lecture) {
+    public Opinion(String content, Member member, Lecture lecture) {
         this.content = content;
-        this.isModified = isModified;
         this.member = member;
         this.lecture = lecture;
     }
 
-    // flag로 삭제처리하기 위한 함수
-    public void deleteOpinion(Boolean isDeleted){
-        this.isDeleted = isDeleted;
-    }
-
-    public void editOpinion(String content){
+     public void editOpinion(String content){
         this.content = content;
         this.isModified = true;
     }
 
-    // public void setLecture(Lecture lecture){
-    //     lecture.getOpinions().add(this);
-    //     this.lecture = lecture;
-    // }
-    //
-    // public void setMember(Member member){
-    // }
+    public void deleteOpinion(Boolean isDeleted){
+        this.isDeleted = isDeleted;
+    }
+
 }
