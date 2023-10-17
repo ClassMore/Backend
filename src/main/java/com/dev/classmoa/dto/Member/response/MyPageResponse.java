@@ -17,11 +17,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class MyPageResponse {
 
-    @Email
-    @NotNull
     private String email;
-
-    @NotNull
     private String nickname;
 
     public MyPageResponse(Member member) {

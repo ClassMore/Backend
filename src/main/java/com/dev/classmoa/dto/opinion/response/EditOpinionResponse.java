@@ -10,6 +10,5 @@ import lombok.*;
 @AllArgsConstructor
 public class EditOpinionResponse {
 
-    @NotNull
     private Boolean isModified = false;
 }

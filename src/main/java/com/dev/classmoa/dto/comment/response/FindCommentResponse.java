@@ -16,16 +16,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class FindCommentResponse {
 
-    @Positive
     private Long id;
-
-    @Size(max = 100)
-    @NotNull
     private String content;
-
     private Opinion opinion;
-
-    @NotNull
     private Boolean isModified;
 
     public FindCommentResponse(Comment comment) {
