@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dev.classmoa.domain.entity.Member;
 import com.dev.classmoa.dto.Lecture.response.FindInterestLecturesResponse;
-import com.dev.classmoa.dto.alarm.response.CreateAlarmResponse;
-import com.dev.classmoa.dto.alarm.response.FindAlarmResponse;
 import com.dev.classmoa.dto.interest.response.CreateInterestResponse;
 import com.dev.classmoa.dto.interest.response.FindInterestResponse;
 import com.dev.classmoa.service.InterestService;
@@ -28,7 +26,7 @@ public class InterestController {
 	// 좋아요 한 강의 목록 조회 - 마이페이지
 	@GetMapping("/interest")
 	public ResponseEntity<List<FindInterestLecturesResponse>> getInterests(Member member){
-		return ResponseEntity.ok(interestService.getLectureListByMember(member.getId()));
+		return ResponseEntity.ok(interestService.getInterestListByMember(member.getId()));
 	}
 
 	// 좋아요 한 강의 한개 조회
@@ -40,14 +38,14 @@ public class InterestController {
 	// 좋아요 등록
 	//TODO: PathVariable 확인 [가영]
 	@PostMapping("/interest/{lecture_id}")
-	public ResponseEntity<CreateInterestResponse> createInterest(@PathVariable("lecture_id") String lectureId, Member member){
-		return ResponseEntity.ok(interestService.create(lectureId, member));
+	public void createInterest(@PathVariable("lecture_id") String lectureId, Member member){
+		interestService.createInterest(lectureId, member);
 	}
 
 	// 좋아요 삭제
 	// TODO: 엔티티로 Request 를 받고 있는데.... [가영,창준]
 	@DeleteMapping("/interest/{interest_id}")
 	public void cancelInterest(@PathVariable("interest_id") Long interestId, Member member){
-		interestService.cancel(interestId, member);
+		interestService.cancelInterest(interestId, member);
 	}
 }

@@ -2,6 +2,7 @@ package com.dev.classmoa.service;
 
 import java.util.List;
 
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import com.dev.classmoa.domain.entity.Alarm;
@@ -21,7 +22,7 @@ public class AlarmService {
 	private final LectureService lectureService;
 
 	// 조회
-	public List<FindAlarmLecturesResponse> getLectureListByMember(Long memberId){
+	public List<FindAlarmLecturesResponse> getAlarmListByMember(Long memberId){
 		List<Alarm> alarms = alarmRepository.findAlarmsByMemberId(memberId);
 
 		return alarms.stream()
@@ -38,27 +39,40 @@ public class AlarmService {
 	}
 
 	// 신청
-	public CreateAlarmResponse create(String lectureId, Member member){
+	//TODO:반환값 왜 필요해? 트랜잭션 걸고 예외 던지기 (알람 객체 생성 하지 않기)
+	@Transactional
+	public void createAlarm(String lectureId, Member member){
 		Lecture lecture = lectureService.getLectureDetail(lectureId);
-		Alarm alarm = alarmRepository.save(
-			Alarm.builder()
-				.member(member)
-				.lecture(lecture)
-				.customPrice(lecture.getSalePrice())
-				.build()
-		);
-		return new CreateAlarmResponse(alarm.getId());
+		try {
+			alarmRepository.save(
+					Alarm.builder()
+							.member(member)
+							.lecture(lecture)
+							.customPrice(lecture.getSalePrice())
+							.build()
+			);
+		} catch(Exception e) {
+			e.getMessage();
+			throw e;
+		}
 	}
 
 	// 삭제
-	public void cancel(Long alarmId, Member member) {
+	public void cancelAlarm(Long alarmId, Member member) {
 		//TODO: 예외 함수 커스터마이징해서 넣기 [규민]
 		Alarm alarmlecture = alarmRepository.findById(alarmId)
 			.orElseThrow(() -> new IllegalArgumentException("not found"));
 
 		//TODO: methodArgumentResolver 에서 처리하는 로직에 따라 달라질 수 있다.[규민]
-		if(alarmlecture.getMember().equals(member)) {
-			alarmRepository.deleteById(alarmlecture.getId());
+		//TODO: 멤버 다를때 예외처리
+		try {
+			if(alarmlecture.getMember().equals(member)) {
+				alarmRepository.deleteById(alarmlecture.getId());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("예외 발생 내용: " + e.getMessage());
+			throw e;
 		}
 	}
 }

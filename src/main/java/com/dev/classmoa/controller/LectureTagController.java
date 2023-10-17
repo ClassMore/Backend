@@ -1,6 +1,6 @@
 package com.dev.classmoa.controller;
 
-import com.dev.classmoa.dto.Lecture.response.FindLectureResponse;
+import com.dev.classmoa.dto.Lecture.response.FindLectureListResponse;
 import com.dev.classmoa.service.LectureTagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,7 @@ public class LectureTagController {
 
     //TODO: PathVariable
     @GetMapping("/{id}")
-    public ResponseEntity<List<FindLectureResponse>> getLecturesByTag(@PathVariable Long tagId) {
+    public ResponseEntity<List<FindLectureListResponse>> getLecturesByTag(@PathVariable Long tagId) {
         return ResponseEntity.ok(lectureTagService.getLectureListByTag(tagId));
     }
 
