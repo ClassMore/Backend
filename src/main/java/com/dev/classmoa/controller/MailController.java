@@ -2,6 +2,7 @@ package com.dev.classmoa.controller;
 
 import java.io.UnsupportedEncodingException;
 
+import com.dev.classmoa.service.MailService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dev.classmoa.dto.mail.request.CodeVerificationRequest;
 import com.dev.classmoa.dto.mail.request.EmailCheckRequest;
-import com.dev.classmoa.service.MailService;
 
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
