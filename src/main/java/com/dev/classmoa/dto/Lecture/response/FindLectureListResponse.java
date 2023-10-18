@@ -15,28 +15,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class FindLectureListResponse {
 
-    @Positive
     private Long id;
-
-    @Size(max = 255)
-    @NotNull
     private String lectureId;
-
     private String imageLink;
-
-    @NotNull
     private String title;
-
-    @NotNull
     private String instructor;
-
-    @NotNull
     private int ordinaryPrice;
-
-    @NotNull
     private int salePrice;
-
-    @Size(max = 255)
     private String salePercent;
 
     public FindLectureListResponse(Lecture lecture) {

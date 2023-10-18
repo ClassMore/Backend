@@ -14,11 +14,11 @@ import lombok.*;
 @AllArgsConstructor
 public class CreateCommentRequest {
 
-    @Size(max = 100)
-    @NotNull
+    @Size(max = 100, message = "100자 이하로 작성해 주세요.")
+    @NotNull(message = "댓글 내용을 입력해 주세요.")
     private String content;
 
-    @Positive
+    @Positive(message = "유효 하지 않은 값 입니다.")
     private Long opinionId;
 
 }

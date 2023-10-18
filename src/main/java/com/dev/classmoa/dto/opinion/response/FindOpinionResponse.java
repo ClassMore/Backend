@@ -20,17 +20,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class FindOpinionResponse {
 
-    @Positive
     private Long id;
-
-    @Size(max = 100)
-    @NotNull
     private String content;
-
     private Member member;
     private List<FindCommentResponse> comments;
-
-    @NotNull
     private Boolean isModified = false;
 
     public FindOpinionResponse(Opinion opinion) {

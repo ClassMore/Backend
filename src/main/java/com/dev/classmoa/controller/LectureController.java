@@ -4,7 +4,6 @@ import com.dev.classmoa.domain.entity.Lecture;
 import com.dev.classmoa.dto.Lecture.response.FindLectureDetailResponse;
 import com.dev.classmoa.dto.Lecture.response.FindLectureListResponse;
 import com.dev.classmoa.service.LectureService;
-import com.dev.classmoa.service.ViewCountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +17,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class LectureController {
     private final LectureService lectureService;
-    private final ViewCountService viewCountService;
 
     @GetMapping("/lecture")
     public ResponseEntity<List<FindLectureListResponse>> getLectures(Pageable pageable) {

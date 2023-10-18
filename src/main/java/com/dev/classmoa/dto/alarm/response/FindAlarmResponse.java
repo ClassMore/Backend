@@ -12,6 +12,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class FindAlarmResponse {
 
-	@NotNull
 	private Boolean isAlarmed = false;
 }

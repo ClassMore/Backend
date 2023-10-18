@@ -11,7 +11,7 @@ import lombok.*;
 @AllArgsConstructor
 public class DeleteOpinionRequest {
 
-    @Positive
+    @Positive(message = "유효 하지 않은 값 입니다.")
     private Long id;
 
 }
