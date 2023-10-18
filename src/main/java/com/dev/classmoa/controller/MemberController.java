@@ -93,21 +93,6 @@ public class MemberController {
 		return memberService.getMemberDetail(member);
 	}
 
-	@PostMapping("/emailCheck")
-	public ResponseEntity<Void> EmailCheck(@RequestBody EmailCheckRequest request) throws MessagingException,
-		UnsupportedEncodingException {
-		String authCode = mailService.sendEmail(request);
-		//        return authCode;
-		return new ResponseEntity<>(HttpStatus.OK);
-	}
-
-	@GetMapping("/emails/verification")
-	public ResponseEntity<Boolean> verificationEmail(@RequestBody CodeVerificationRequest request) {
-		Boolean response = mailService.verifiedCode(request);
-
-		return new ResponseEntity<>(response, HttpStatus.OK);
-	}
-
 	// TODO: 비밀번호 변경
 
 }

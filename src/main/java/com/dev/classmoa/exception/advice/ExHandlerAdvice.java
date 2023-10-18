@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class ExHandlerAdvice {
-    @ExceptionHandler
+    @ExceptionHandler(ClassmoaException.class)
     public ResponseEntity<ErrorResult> commonHandler(ClassmoaException ex) {
         ClassmoaErrorCode classmoaErrorCode = ex.getClassmoaCode();
         ErrorResult result = ErrorResult.builder()
