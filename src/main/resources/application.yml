@@ -1,3 +1,7 @@
+server:
+  servlet:
+    context-path: /api
+
 spring:
   datasource:
     url: ${jdbcUrl} #jdbc:mariadb://crawling-server.c4y9vm1irfhh.ap-northeast-2.rds.amazonaws.com:3306/test
@@ -28,6 +32,11 @@ spring:
           timeout: 3000
           writetimeout: 3000
       auth-code-expiration-millis: 1800000  # 30 * 60 * 1000 == 30분
+  data:
+    redis:
+      port: 6379
+      host: 13.209.20.220
+      password: ${redisPassword}
 
 jwt:
   secret: "classmoa"
