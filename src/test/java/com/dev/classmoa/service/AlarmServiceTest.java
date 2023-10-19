@@ -124,7 +124,7 @@ class AlarmServiceTest {
 
         // then
         Optional<Alarm> alarms = alarmRepository
-                .findAlarmByMemberIdAndLecture_LectureId(member.getMemberId(), lecture.getLectureId());
+                .findAlarmByMemberIdAndLecture_LectureIdAndCanceledIsFalse(member.getMemberId(), lecture.getLectureId());
         assertThat(alarms.get().getMember().getId()).isEqualTo(member.getMemberId());
     }
 
@@ -154,7 +154,7 @@ class AlarmServiceTest {
 
         // then
         Optional<Alarm> alarms = alarmRepository
-                .findAlarmByMemberIdAndLecture_LectureId(member.getMemberId(), lecture.getLectureId());
+                .findAlarmByMemberIdAndLecture_LectureIdAndCanceledIsFalse(member.getMemberId(), lecture.getLectureId());
         assertThat(alarms.get().isCanceled()).isTrue();
     }
 
