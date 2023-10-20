@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class FindInterestResponse {
 
+	@Builder.Default
 	private Boolean isInterested = false;
 }
 

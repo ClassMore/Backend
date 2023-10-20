@@ -12,5 +12,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class DeleteOpinionResponse {
 
+	@Builder.Default
 	private Boolean isDeleted = false;
 }
