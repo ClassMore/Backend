@@ -18,6 +18,8 @@ import com.dev.classmoa.utils.JwtUtil;
 import lombok.RequiredArgsConstructor;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -88,7 +90,7 @@ public class MemberService {
 	}
 
 	@Transactional
-	public String login(String memberName, String password) throws IOException {
+	public Map<String, String> login(String memberName, String password) throws IOException {
 		// userName 없음
 		Member selectedMember = memberRepository.findByMemberName(memberName)
 			.orElseThrow(() -> new ClassmoaException(ClassmoaErrorCode.NOT_FOUND_MEMBER));
@@ -97,9 +99,13 @@ public class MemberService {
 		if (!encoder.matches(password, selectedMember.getPassword())) {
 			throw new ClassmoaException(ClassmoaErrorCode.NOT_FOUND_MEMBER);
 		}
+		Map<String, String> result = new HashMap<>();
+		String token = JwtUtil.createToken(selectedMember, secretKey, expireTimeMs);
+		result.put("token", token);
+		result.put("nickname", selectedMember.getNickname());
 
 		// 앞에서 Exception 안났으면 토큰 발행
-		return JwtUtil.createToken(selectedMember, secretKey, expireTimeMs);
+		return result;
 	}
 
 	public MyPageResponse getMemberDetail(LoggedInMember member) {
