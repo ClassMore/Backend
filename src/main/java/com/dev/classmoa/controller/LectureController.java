@@ -1,6 +1,7 @@
 package com.dev.classmoa.controller;
 
 import com.dev.classmoa.domain.entity.Lecture;
+import com.dev.classmoa.dto.Lecture.response.FindLectureChartResponse;
 import com.dev.classmoa.dto.Lecture.response.FindLectureDetailResponse;
 import com.dev.classmoa.dto.Lecture.response.FindLectureListResponse;
 import com.dev.classmoa.service.LectureService;
@@ -32,5 +33,11 @@ public class LectureController {
         FindLectureDetailResponse response = new FindLectureDetailResponse(lecture);
         viewCountService.viewCountUp(lecture);
         return ResponseEntity.ok(response);
+    }
+
+    //TODO: PathVariable
+    @GetMapping("/lecture/{lecture_id}/chart")
+    public ResponseEntity<List<FindLectureChartResponse>> getLectureChart(@PathVariable("lecture_id") String lectureId) {
+        return ResponseEntity.ok(lectureService.getLectureChart(lectureId));
     }
 }

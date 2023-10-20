@@ -2,6 +2,7 @@ package com.dev.classmoa.service;
 
 import com.dev.classmoa.domain.entity.Lecture;
 import com.dev.classmoa.domain.repository.LectureRepository;
+import com.dev.classmoa.dto.Lecture.response.FindLectureChartResponse;
 import com.dev.classmoa.dto.Lecture.response.FindLectureListResponse;
 import com.dev.classmoa.exception.ClassmoaException;
 import com.dev.classmoa.exception.type.ClassmoaErrorCode;
@@ -33,5 +34,13 @@ public class LectureService {
                 .orElseThrow(() -> new ClassmoaException(ClassmoaErrorCode.NOT_FOUND_LECTURE));
         viewCountService.viewCountUp(lecture);
         return lecture;
+    }
+
+    public List<FindLectureChartResponse> getLectureChart(String lectureId) {
+        List<Lecture> lectureList = lectureRepository.findAllByLectureId(lectureId);
+
+        return lectureList.stream()
+                .map(FindLectureChartResponse::new)
+                .toList();
     }
 }
