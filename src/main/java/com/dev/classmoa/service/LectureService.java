@@ -17,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class LectureService {
     private final LectureRepository lectureRepository;
-   private final ViewCountService viewCountService;
+    private final ViewCountService viewCountService;
 
     public List<FindLectureListResponse> getLectureList(Pageable pageable) {
         List<Lecture> lectures = lectureRepository.findAllByDate(pageable, LocalDate.now()).getContent();
