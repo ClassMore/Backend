@@ -23,11 +23,11 @@ jobs:
       - name: Setup MySQL
         uses: mirromutth/mysql-action@v1.1
         with:
-          mysql database: 'crawling-server'
-          mysql user: 'admin'
-          mysql password: ${{ secrets.AWS_DB_PASSWORD }}
-          mysql host: 'crawling-server.c4y9vm1irfhh.ap-northeast-2.rds.amazonaws.com'
-          mysql port: '3306'
+          mysql database: 'crawling-server' # RDS 데이터베이스 이름
+          mysql user: 'admin' # RDS 데이터베이스 사용자 이름
+          mysql password: ${{ secrets.AWS_DB_PASSWORD }} # Secrets에서 가져온 비밀번호
+          mysql host: 'crawling-server.c4y9vm1irfhh.ap-northeast-2.rds.amazonaws.com' # RDS 엔드포인트 주소
+          mysql port: '3306' # RDS 포트 번호
 
       - name: Generate Gradle Wrapper
         run: gradle wrapper
