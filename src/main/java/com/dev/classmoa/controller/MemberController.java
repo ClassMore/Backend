@@ -2,6 +2,10 @@ package com.dev.classmoa.controller;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -44,11 +48,6 @@ public class MemberController {
 
 	private final MemberService memberService;
 
-	private final MailService mailService;
-
-	@Value("${jwt.secret}")
-	private String secretKey;
-	private Long expireTimeMs = 1000 * 60 * 30L;
 
 	@PostMapping("/join")
 	public ResponseEntity<String> join(@RequestBody MemberJoinRequest dto) {
@@ -57,12 +56,12 @@ public class MemberController {
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<Void> login(@RequestBody MemberLoginRequest dto) throws IOException {
-		String token = memberService.login(dto.getEmail(), dto.getPassword());
+	public ResponseEntity<String> login(@RequestBody MemberLoginRequest dto) throws IOException {
+		Map<String, String> map = memberService.login(dto.getEmail(), dto.getPassword());
 		HttpHeaders headers = new HttpHeaders();
-		headers.set("Authorization", "Bearer " + token);
+		headers.set("Authorization", "Bearer " + map.get("token"));
 		headers.set("Content-Type", MediaType.APPLICATION_JSON_VALUE);
-		return new ResponseEntity<>(headers, HttpStatus.OK);
+		return new ResponseEntity<>(map.get("nickname"), headers, HttpStatus.OK);
 	}
 
 	@GetMapping("/auth/kakao/callback")
@@ -72,19 +71,13 @@ public class MemberController {
 		KakaoTokenResponse kakaoTokenResponse = kakaoTokenJsonData.getToken(code);
 		KakaoUserInfoResponse userInfo = kakaoUserInfo.getUserInfo(kakaoTokenResponse.getAccess_token());
 
-		// 비가입자인 경우
-		Member originMember = memberService.findMemberByMemberName(userInfo.getKakao_account().getEmail());
-		if (originMember.getMemberName() == null) {
-			System.out.println("기존 회원이 아니기에 자동 회원가입을 진행합니다.");
-			originMember = memberService.createKakaoUser(userInfo);
-		}
+		String token = memberService.checkRegistration(userInfo);
 
-		// 토큰 생성
-		String token = JwtUtil.createToken(originMember, secretKey, expireTimeMs);
-
-		// 토큰을 헤더에 담아 응답
-		HttpHeaders headers = new HttpHeaders();
-		response.sendRedirect("http://localhost:3000/socialLogin?" + "Bearer " + token);
+		String path = "http://localhost:3000/socialLogin?" + token + "&";
+		String nickname = URLEncoder.encode(userInfo.getKakao_account().getProfile().getNickname(),
+				StandardCharsets.UTF_8);
+		System.out.println(path + nickname);
+		response.sendRedirect(path + nickname);
 	}
 
 	@GetMapping("/user/mypage")
@@ -92,7 +85,4 @@ public class MemberController {
 		System.out.println(member);
 		return memberService.getMemberDetail(member);
 	}
-
-	// TODO: 비밀번호 변경
-
 }

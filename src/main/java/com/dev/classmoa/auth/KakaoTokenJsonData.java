@@ -14,7 +14,7 @@ import reactor.core.publisher.Flux;
 public class KakaoTokenJsonData {
 	private final WebClient webClient;
 	private static final String TOKEN_URI = "https://kauth.kakao.com/oauth/token";
-	private static final String REDIRECT_URI = "http://localhost:8080/auth/kakao/callback";
+	private static final String REDIRECT_URI = "http://localhost:8080/api/auth/kakao/callback";
 	private static final String GRANT_TYPE = "authorization_code";
 	private static final String CLIENT_ID = "a915ca187f6f077e4d9078f82a69526f";
 
