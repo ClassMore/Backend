@@ -14,5 +14,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class EditCommentResponse {
 
+    @Builder.Default
     private Boolean isModified = false;
 }

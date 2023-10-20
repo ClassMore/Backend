@@ -24,6 +24,7 @@ public class FindOpinionResponse {
     private String content;
     private Member member;
     private List<FindCommentResponse> comments;
+    @Builder.Default
     private Boolean isModified = false;
 
     public FindOpinionResponse(Opinion opinion) {
