@@ -35,7 +35,7 @@ public class InterestController {
     // 좋아요 등록
     //TODO: PathVariable 확인 [가영]
     @PostMapping("/user/interest/{lecture_id}")
-    public void createInterest(@PathVariable("lecture_id") String lectureId, @LoginMember LoggedInMember member) {
-        interestService.createInterest(lectureId, member);
+    public ResponseEntity<FindInterestResponse> createInterest(@PathVariable("lecture_id") String lectureId, @LoginMember LoggedInMember member) {
+        return ResponseEntity.ok(interestService.createInterest(lectureId, member));
     }
 }
