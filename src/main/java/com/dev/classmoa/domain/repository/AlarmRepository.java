@@ -11,5 +11,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AlarmRepository extends JpaRepository<Alarm, Long> {
 	List<Alarm> findAlarmsByMemberIdAndLectureDateAndAndCanceledIsFalse(Long memberId, LocalDate now);
-	Optional<Alarm> findAlarmByMemberIdAndLecture_LectureIdAndCanceledIsFalse(Long memberId, String lectureId);
+	Optional<Alarm> findAlarmByMemberIdAndLecture_LectureId(Long memberId, String lectureId);
 }
