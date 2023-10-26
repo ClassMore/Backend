@@ -36,7 +36,7 @@ public class AlarmController {
     // 알람신청
     //TODO: pathvariable 로 매핑을 시켜줄려면 이름이 같거나 @PathVariable("lecture_id")라고 선언 해야 가능한 걸로 앎 [가영]
     @PostMapping("/user/alarm/{lecture_id}")
-    public void createAlarm(@PathVariable("lecture_id") String lectureId, @LoginMember LoggedInMember loggedInMember) {
-        alarmService.createAlarm(lectureId, loggedInMember);
+    public ResponseEntity<FindAlarmResponse> createAlarm(@PathVariable("lecture_id") String lectureId, @LoginMember LoggedInMember loggedInMember) {
+        return ResponseEntity.ok(alarmService.createAlarm(lectureId, loggedInMember));
     }
 }

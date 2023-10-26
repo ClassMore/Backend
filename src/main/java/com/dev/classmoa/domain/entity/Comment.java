@@ -29,6 +29,7 @@ public class Comment {
     private Member member;
 
     private String content;
+    @CreationTimestamp
     private LocalDateTime writeDate;
     private Boolean isModified = false;
     private Boolean isDeleted = false;

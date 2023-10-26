@@ -30,7 +30,7 @@ public class MailController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@GetMapping("/email/verification")
+	@PostMapping("/email/verification")
 	public ResponseEntity<Boolean> verificationEmail(@RequestBody CodeVerificationRequest request) {
 		Boolean response = mailService.verifiedCode(request);
 

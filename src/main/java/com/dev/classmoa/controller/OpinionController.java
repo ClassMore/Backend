@@ -1,6 +1,8 @@
 package com.dev.classmoa.controller;
 
+import com.dev.classmoa.auth.annotation.LoginMember;
 import com.dev.classmoa.domain.entity.Member;
+import com.dev.classmoa.dto.Member.LoggedInMember;
 import com.dev.classmoa.dto.comment.request.CreateCommentRequest;
 import com.dev.classmoa.dto.comment.request.DeleteCommentRequest;
 import com.dev.classmoa.dto.comment.request.EditCommentRequest;
@@ -36,42 +38,44 @@ public class OpinionController {
     // 의견 등록
     @PostMapping("/user/lecture/{lecture_id}/opinion")
     public void createOpinion(@RequestBody @Valid CreateOpinionRequest createOpinion,
-                              @PathVariable("lecture_id") String lectureId, Member member) {
+                              @PathVariable("lecture_id") String lectureId,
+                              @LoginMember LoggedInMember member) {
         opinionService.createOpinion(createOpinion, lectureId, member);
     }
 
     // 의견 수정
-    @PutMapping("/user/lecture/edit/opinion")
+    @PutMapping("/user/lecture/opinion")
     public ResponseEntity<EditOpinionResponse> editOpinion(@RequestBody @Valid EditOpinionRequest editOpinion,
-                                                           Member member) {
+                                                           @LoginMember LoggedInMember member) {
         return ResponseEntity.ok(opinionService.editOpinion(editOpinion, member));
     }
 
     // 의견 삭제
-    @DeleteMapping("/user/lecture/delete/opinion")
-    public ResponseEntity<Void> deleteOpinion(@RequestBody @Valid DeleteOpinionRequest deleteOpinion, Member member) {
+    @DeleteMapping("/user/lecture/opinion")
+    public ResponseEntity<Void> deleteOpinion(@RequestBody @Valid DeleteOpinionRequest deleteOpinion,
+                                              @LoginMember LoggedInMember member) {
         opinionService.deleteOpinion(deleteOpinion, member);
         return ResponseEntity.ok().build();
     }
 
     // 댓글 등록
-    @PostMapping("/user/opinion/{opinion_id}/comment")
+    @PostMapping("/user/opinion/comment")
     public void createComment(@RequestBody @Valid CreateCommentRequest createComment,
-                              @PathVariable("opinion_id") @Valid Long opinionId, Member member) {
-        opinionService.commentCreate(createComment, opinionId, member);
+                              @LoginMember LoggedInMember member) {
+        opinionService.commentCreate(createComment, member);
     }
 
     // 댓글 수정
-    @PutMapping("/user/opinion/edit/comment")
+    @PutMapping("/user/opinion/comment")
     public ResponseEntity<EditCommentResponse> editComment(@RequestBody @Valid EditCommentRequest editComment,
-                                                           Member member) {
+                                                           @LoginMember LoggedInMember member) {
         return ResponseEntity.ok(opinionService.commentEdit(editComment, member));
     }
 
     // 댓글 삭제
-    @DeleteMapping("/user/opinion/delete/comment")
+    @DeleteMapping("/user/opinion/comment")
     public ResponseEntity<DeleteCommentResponse> deleteComment(@RequestBody @Valid DeleteCommentRequest deleteComment,
-                                                               Member member) {
+                                                               @LoginMember LoggedInMember member) {
         return ResponseEntity.ok(opinionService.commentDelete(deleteComment, member));
     }
 }

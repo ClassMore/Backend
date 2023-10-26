@@ -35,7 +35,7 @@ spring:
   data:
     redis:
       port: 6379
-      host: 13.209.20.220
+      host: 43.201.31.162
       password: ${redisPassword}
 
 jwt:

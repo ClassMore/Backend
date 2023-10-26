@@ -2,6 +2,7 @@ package com.dev.classmoa.dto.comment.request;
 
 import com.dev.classmoa.domain.entity.Comment;
 import com.dev.classmoa.domain.entity.Opinion;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
@@ -20,5 +21,8 @@ public class CreateCommentRequest {
 
     @Positive(message = "유효 하지 않은 값 입니다.")
     private Long opinionId;
+
+    @NotNull(message = "강의가 없습니다.")
+    private String lectureId;
 
 }

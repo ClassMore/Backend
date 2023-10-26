@@ -22,16 +22,20 @@ public class FindOpinionResponse {
 
     private Long id;
     private String content;
-    private Member member;
+    private Long memberId;
     private List<FindCommentResponse> comments;
+    private String nickname;
     @Builder.Default
     private Boolean isModified = false;
 
     public FindOpinionResponse(Opinion opinion) {
         this.id = opinion.getId();
         this.content = opinion.getContent();
-        this.member = opinion.getMember();
-        this.comments = opinion.getComments().stream().map(FindCommentResponse::new).toList();
+        this.memberId = opinion.getMember().getId();
+        this.nickname = opinion.getMember().getNickname();
+        this.comments = opinion.getComments().stream()
+                .filter(comment -> !comment.getIsDeleted())
+                .map(FindCommentResponse::new).toList();
         this.isModified = opinion.getIsModified();
     }
 

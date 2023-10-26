@@ -22,10 +22,14 @@ public class MemberJoinRequest {
     @NotNull(message = "비밀 번호를 입력해 주세요.")
     private String password;
 
+    @Size(min = 2, max = 15, message = "닉네임은 2글자 이상 15글자 이하로 입력해 주세요.")
+    private String nickname;
+
     public Member toEntity() {
         return Member.signup()
                 .memberName(email)
                 .password(password)
+                .nickname(nickname)
                 .signupbuild();
     }
 }
