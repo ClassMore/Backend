@@ -7,6 +7,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
+import com.dev.classmoa.dto.Member.response.LoginResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -56,12 +57,13 @@ public class MemberController {
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<String> login(@RequestBody MemberLoginRequest dto) throws IOException {
-		Map<String, String> map = memberService.login(dto.getEmail(), dto.getPassword());
+	public ResponseEntity<LoginResponse> login(@RequestBody MemberLoginRequest dto) throws IOException {
+		Map<String, Object> map = memberService.login(dto.getEmail(), dto.getPassword());
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Authorization", "Bearer " + map.get("token"));
 		headers.set("Content-Type", MediaType.APPLICATION_JSON_VALUE);
-		return new ResponseEntity<>(map.get("nickname"), headers, HttpStatus.OK);
+		LoginResponse response = new LoginResponse((String)map.get("nickname"), (Long)map.get("id"));
+		return new ResponseEntity<>(response, headers, HttpStatus.OK);
 	}
 
 	@GetMapping("/auth/kakao/callback")
@@ -71,13 +73,14 @@ public class MemberController {
 		KakaoTokenResponse kakaoTokenResponse = kakaoTokenJsonData.getToken(code);
 		KakaoUserInfoResponse userInfo = kakaoUserInfo.getUserInfo(kakaoTokenResponse.getAccess_token());
 
-		String token = memberService.checkRegistration(userInfo);
+		Map<String, Object> info = memberService.checkRegistration(userInfo);
 
-		String path = "http://localhost:3000/socialLogin?" + token + "&";
+		String path = "http://localhost:3000/socialLogin?" + (String)info.get("token") + "&";
 		String nickname = URLEncoder.encode(userInfo.getKakao_account().getProfile().getNickname(),
 				StandardCharsets.UTF_8);
-		System.out.println(path + nickname);
-		response.sendRedirect(path + nickname);
+		Long id = ((Member)info.get("member")).getId();
+		System.out.println(path + nickname + "&" + id);
+		response.sendRedirect(path + nickname + "&" + id);
 	}
 
 	@GetMapping("/user/mypage")

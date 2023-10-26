@@ -59,11 +59,13 @@ public class MemberService {
     }
 
     @Transactional
-    public String checkRegistration(KakaoUserInfoResponse userInfo) throws IOException {
+    public Map<String, Object> checkRegistration(KakaoUserInfoResponse userInfo) throws IOException {
         Member oauthMember = memberRepository.findByMemberName(userInfo.getKakao_account().getEmail())
                 .orElseGet(() -> createKakaoUser(userInfo));
-
-        return JwtUtil.createToken(oauthMember, secretKey, expireTimeMs);
+        Map<String, Object> info = new HashMap<>();
+        info.put("token", JwtUtil.createToken(oauthMember, secretKey, expireTimeMs));
+        info.put("member", oauthMember);
+        return info;
     }
 
     @Transactional
@@ -88,7 +90,7 @@ public class MemberService {
     }
 
     @Transactional
-    public Map<String, String> login(String memberName, String password) throws IOException {
+    public Map<String, Object> login(String memberName, String password) throws IOException {
         // userName 없음
         Member selectedMember = memberRepository.findByMemberName(memberName)
                 .orElseThrow(() -> new ClassmoaException(ClassmoaErrorCode.NOT_FOUND_MEMBER));
@@ -97,10 +99,11 @@ public class MemberService {
         if (!encoder.matches(password, selectedMember.getPassword())) {
             throw new ClassmoaException(ClassmoaErrorCode.NOT_FOUND_MEMBER);
         }
-        Map<String, String> result = new HashMap<>();
+        Map<String, Object> result = new HashMap<>();
         String token = JwtUtil.createToken(selectedMember, secretKey, expireTimeMs);
         result.put("token", token);
         result.put("nickname", selectedMember.getNickname());
+        result.put("id", selectedMember.getId());
 
         // 앞에서 Exception 안났으면 토큰 발행
         return result;
