@@ -25,10 +25,9 @@ public class AlarmService {
 
     // 조회
     public List<FindAlarmLecturesResponse> getAlarmListByMember(Long memberId) {
-        List<Alarm> alarms = alarmRepository.findAlarmsByMemberIdAndLectureDateAndAndCanceledIsFalse(memberId, LocalDate.now());
+        List<Lecture> alarms = alarmRepository.getAlarms(memberId);
 
         return alarms.stream()
-                .map(Alarm::getLecture)
                 .map(FindAlarmLecturesResponse::new)
                 .toList();
     }
@@ -36,7 +35,7 @@ public class AlarmService {
     // 단일 조회
     public FindAlarmResponse getIsAlarmed(String lectureId, LoggedInMember loggedInMember) {
         Alarm alarm = alarmRepository
-                .findAlarmByMemberIdAndLecture_LectureId(loggedInMember.getMemberId(), lectureId)
+                .getAlarm(loggedInMember.getMemberId(), lectureId)
                 .orElseGet(Alarm::new);
 
         boolean isAlarmed = !alarm.isCanceled() && alarm.getId() != null;
@@ -52,7 +51,7 @@ public class AlarmService {
         Member member = memberService.findMemberById(loggedInMember.getMemberId());
 
         Optional<Alarm> optionalAlarm = alarmRepository
-                .findAlarmByMemberIdAndLecture_LectureId(member.getId(), lectureId);
+                .getAlarm(member.getId(), lectureId);
 
         if (optionalAlarm.isEmpty()) {
             alarmRepository.save(Alarm.builder()
@@ -69,6 +68,5 @@ public class AlarmService {
             alarm.updateIsCanceled(true);
             return new FindAlarmResponse(false);
         }
-
     }
 }

@@ -23,19 +23,17 @@ public class InterestService {
     private final MemberService memberService;
 
     public List<FindInterestLecturesResponse> getInterestListByMember(LoggedInMember member) {
-        List<InterestLecture> interests = interestLectureRepository
-                .findInterestLecturesByMemberMemberNameAndLectureDateAndCanceledIsFalse(member.getMemberName(),
-                        LocalDate.now());
+        List<Lecture> interests = interestLectureRepository
+                .getInterestLectures(member.getMemberId());
 
         return interests.stream()
-                .map(InterestLecture::getLecture)
                 .map(FindInterestLecturesResponse::new)
                 .toList();
     }
 
     public FindInterestResponse getIsInterested(String lectureId, LoggedInMember member) {
         InterestLecture interestLecture = interestLectureRepository
-                .findInterestLectureByMemberIdAndLecture_LectureId(member.getMemberId(), lectureId)
+                .getInterestLecture(member.getMemberId(), lectureId)
                 .orElseGet(InterestLecture::new);
 
         boolean isInterested = !interestLecture.isCanceled() && interestLecture.getId() != null;
@@ -50,7 +48,7 @@ public class InterestService {
         Member member = memberService.findMemberByMemberName(loggedInMember.getMemberName());
 
         Optional<InterestLecture> optionalInterestLecture = interestLectureRepository
-                .findInterestLectureByMemberIdAndLecture_LectureId(member.getId(), lectureId);
+                .getInterestLecture(member.getId(), lectureId);
 
         if(optionalInterestLecture.isEmpty()){
             interestLectureRepository.save(InterestLecture.builder()
@@ -68,5 +66,4 @@ public class InterestService {
             return new FindInterestResponse(false);
         }
     }
-
 }
