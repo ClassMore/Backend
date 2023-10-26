@@ -18,14 +18,17 @@ public class FindCommentResponse {
 
     private Long id;
     private String content;
-    private Opinion opinion;
+    private Long opinionId;
+    private String nickname;
+    private Long memberId;
     private Boolean isModified;
 
     public FindCommentResponse(Comment comment) {
         this.id = comment.getId();
         this.content = comment.getContent();
-        this.opinion = comment.getOpinion();
+        this.nickname = comment.getMember().getNickname();
+        this.opinionId = comment.getOpinion().getId();
+        this.memberId = comment.getMember().getId();
         this.isModified = comment.getIsModified();
     }
-
 }
