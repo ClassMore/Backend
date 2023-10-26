@@ -20,4 +20,7 @@ public class EditOpinionRequest {
     @NotNull(message = "의견 내용을 입력해 주세요.")
     private String content;
 
+    @NotNull(message = "유효 하지 않은 값 입니다.")
+    private String lectureId;
+
 }
