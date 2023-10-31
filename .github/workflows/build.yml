@@ -72,3 +72,29 @@ jobs:
           echo "::set-output name=image_tag::$IMAGE_TAG"
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          
+      - name: Checkout for Kustomize repository
+        uses: actions/checkout@v2
+        with:
+          # kubernetes yaml 파일 저장
+          repository: ClassMore/k8s-manifest-repo # k8s yaml 파일이 있는 repo
+          ref: main  # branch 이름
+          token: ${{ secrets.ACTION_TOKEN }} # Github Action token을 발급받아서 repo secrect에 등록해줘야한다
+          path: k8s-manifest-repo # 최상위 경로로 repository와 동일하게 설정
+
+      - name: Update Kubernetes resources
+        run: |
+          pwd
+          ls
+          cd k8s-manifest-repo/overlays/dev/ 
+          kustomize edit set image ${{ steps.login-ecr.outputs.registry }}/classmoa-back=${{ steps.login-ecr.outputs.registry }}/classmoa-back:${{ github.run_number }}.${{ github.run_attempt }}
+          cat kustomization.yaml
+
+        # 수정된 kustomization.yaml 파일 commit push
+      - name: Commit files
+        run: |
+          cd k8s-manifest-repo
+          git config --global user.email "icj4153@hanyang.ac.kr"
+          git config --global user.name "icj4153"
+          git commit -am "스프링 서버 이미지 태그 업데이트"
+          git push -u origin main
