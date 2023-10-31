@@ -84,10 +84,11 @@ jobs:
 
       - name: Update Kubernetes resources
         run: |
-          pwd
-          ls
-          cd k8s-manifest-repo/overlays/dev/ 
-          kustomize edit set image ${{ steps.login-ecr.outputs.registry }}/classmoa-back=${{ steps.login-ecr.outputs.registry }}/classmoa-back:${{ github.run_number }}.${{ github.run_attempt }}
+          echo \${{ steps.login-ecr.outputs.registry }}
+          echo \${{ steps.image-info.outputs.ecr_repository }}
+          echo \${{ steps.image-info.outputs.image_tag }}
+          cd k8s-manifest-repo/overlays/dev/
+          kustomize edit set image \${{ steps.login-ecr.outputs.registry}}/\${{ steps.image-info.outputs.ecr_repository }}=\${{ steps.login-ecr.outputs.registry}}/\${{ steps.image-info.outputs.ecr_repository }}:\${{ steps.image-info.outputs.image_tag }}
           cat kustomization.yaml
 
         # 수정된 kustomization.yaml 파일 commit push
