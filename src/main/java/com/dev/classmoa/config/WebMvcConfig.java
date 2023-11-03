@@ -20,7 +20,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
 		registry.addMapping("/**")
-			.allowedOriginPatterns("http://localhost:3000")
+			.allowedOriginPatterns("http://k8s-default-fronting-715d7a1020-1419624639.ap-northeast-2.elb.amazonaws.com")
 			.allowedMethods("*")
 			.allowedHeaders("*")
 			.allowCredentials(true)
