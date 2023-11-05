@@ -16,14 +16,14 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
 		resolvers.add(new CustomMethodResolver());
 	}
-
-	@Override
-	public void addCorsMappings(CorsRegistry registry) {
-		registry.addMapping("/**")
-			.allowedOriginPatterns("*")
-			.allowedMethods("*")
-			.allowedHeaders("*")
-			.allowCredentials(true)
-			.exposedHeaders("Authorization");
-	}
+//
+//	@Override
+//	public void addCorsMappings(CorsRegistry registry) {
+//		registry.addMapping("/**")
+//			.allowedOriginPatterns("http://localhost:3000")
+//			.allowedMethods("*")
+//			.allowedHeaders("*")
+//			.allowCredentials(false)
+//			.exposedHeaders("Authorization");
+//	}
 }
