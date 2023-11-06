@@ -75,8 +75,7 @@ public class MemberController {
 
 		Map<String, Object> info = memberService.checkRegistration(userInfo);
 
-		String path = "http://k8s-default-fronting-715d7a1020-485847049.ap-northeast-2.elb.amazonaws.com/socialLogin?" + (String)info.get("token") + "&";
-//		String path = "http://localhost:3000/socialLogin?" + (String)info.get("token") + "&";
+		String path = "http://www.classmoa.net/socialLogin?" + (String)info.get("token") + "&";
 		String nickname = URLEncoder.encode(userInfo.getKakao_account().getProfile().getNickname(),
 				StandardCharsets.UTF_8);
 		Long id = ((Member)info.get("member")).getId();
